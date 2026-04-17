@@ -154,49 +154,74 @@ sprite_caindo = carregar_e_escalar("png dos sprites/lyoda caindo 1.png", altura_
 
 
 #ataque e disparos
-# Pose do Lyoda disparando (estilo Cuphead)
+# Pose do Lyoda disparando (tipo Cuphead)
 sprite_pose_disparo = carregar_e_escalar("png dos sprites/lyoda atirando 1.png", altura_do_personagem)
 
 
 #fade do background
 indice_fundo = 0
 proximo_fundo = 1
-
 alpha = 0
 velocidade_fade = 5  # quanto maior, mais rápido troca
-
 tempo_troca = 300  # 3 segundos
 ultimo_tempo = pygame.time.get_ticks()
 
 
+# Lista de sprites de projétil
+sprites_projeteis = [
+    pygame.transform.scale(pygame.image.load("png dos sprites/projetil 1 lyoda.png").convert_alpha(), (30, 30)),
+    pygame.transform.scale(pygame.image.load("png dos sprites/projetil 2 lyoda.png").convert_alpha(), (30, 30))
+]
+
+projeteis = []
+indice_sprite_projetil = 0 # Qual projétil usar agora (0 ou 1)
+ultimo_disparo = 0
+cooldown_disparo = 300 # Milissegundos
+
+
 while rodando:
-        clock.tick(60)  # 60 FPS
+    clock.tick(60)
+    
+    # Mova as definições de tempo e teclas para o topo do loop
+    tempo_atual = pygame.time.get_ticks()
+    teclas = pygame.key.get_pressed() 
 
-        # --- Eventos ---
-        
-    # --- Eventos ---
+    # Eventos
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            rodando = False
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_SPACE and not pulando:
+                velocidade_y = -velocidade_pulo
+                pulando = True
 
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                rodando = False
-            
-            if evento.type == pygame.KEYDOWN:
-                # Pulo
-                if evento.key == pygame.K_SPACE and not pulando:
-                    velocidade_y = -velocidade_pulo
-                    pulando = True
-                
-
-
-
-        #Lógica de Teclas Pressionadas ---
-        teclas = pygame.key.get_pressed()
-
-        # 1. Checa se está atirando (K pressionado)
+    # Agora a variável 'teclas' e 'tempo_atual' já existem 
+    # e podem ser usadas aqui embaixo sem erro:
+    
+# Lógica de disparo
         if teclas[pygame.K_k]:
             atacando = True
-        else:
-            atacando = False
+            if tempo_atual - ultimo_disparo > cooldown_disparo:
+                pos_x = jogador.right if direcao == "direita" else jogador.left - 30
+                
+                novo_tiro = {
+                    "rect": pygame.Rect(pos_x, jogador.centery, 30, 30),
+                    "tipo_sprite": indice_sprite_projetil,
+                    "direcao": 1 if direcao == "direita" else -1
+                }
+                
+                projeteis.append(novo_tiro)
+                
+                indice_sprite_projetil = 1 - indice_sprite_projetil
+                ultimo_disparo = tempo_atual
+    else:
+        atacando = False
+
+#Atualizar posição dos tiros
+        for tiro in projeteis[:]:
+            tiro["rect"].x += 15 * tiro["direcao"]
+            if tiro["rect"].x < 0 or tiro["rect"].x > 1980:
+                projeteis.remove(tiro)
 
         # 2. Movimento (Só acontece se NÃO estiver atacando)
         movendo = False 
@@ -251,11 +276,11 @@ while rodando:
                 pulando = False        
         
 
-        #Lógica de Animação
 
+# Lógica de Animação
         if atacando:
             personagem_sprite = sprite_pose_disparo
-            frame_atual = 0 # Reseta a animação para não bugar ao voltar pro chão
+            frame_atual = 0
         elif pulando:
             frame_atual = 0 
             if velocidade_y < -5:
@@ -278,7 +303,6 @@ while rodando:
                 frame_atual = 0
             
             personagem_sprite = lista_atual[int(frame_atual)]
-
 
 
         # Desenhar na tela zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
@@ -319,6 +343,15 @@ while rodando:
         pos_x_centralizado = jogador.centerx - (sprite_mostrar.get_width() // 2)
         tela.blit(sprite_mostrar, (pos_x_centralizado, jogador.y))
         
+        
+        #3. Desenhar projéteis
+        for tiro in projeteis:
+            img_tiro = sprites_projeteis[tiro["tipo_sprite"]]
+            
+            if tiro["direcao"] == -1:
+                img_tiro = pygame.transform.flip(img_tiro, True, False)
+                
+            tela.blit(img_tiro, (tiro["rect"].x, tiro["rect"].y))
 
     
         pygame.display.flip()
