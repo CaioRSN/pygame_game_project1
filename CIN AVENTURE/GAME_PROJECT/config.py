@@ -81,6 +81,32 @@ velocidade_anim_rosto = 0.01
 tempo_segundos = 0
 contador_frames_tempo = 0
 
+score = 0
+
+# Quantidade inicial de cada um dos 3 itens
+inventario_quantidades = {
+    "item_1": 0,
+    "item_2": 0,
+    "item_3": 0,
+}
+
+
+
+dialogo_npc1 = [
+    "PROFESSOR???!!!",
+    "Acho que exagerei nos tickets e abri esse portal...",
+    "Os pinguins estao fora de controle!",
+    "Por favor, use suas habilidades 'programalisticas'...",
+    "para derrota-los e salvar o nosso tão amado CIN!",
+]
+
+
+# Variáveis de controle do sistema de diálogo
+indice_dialogo = 0       # Qual frase está aparecendo agora
+mostrar_balao = False    # Controla se o balão deve ser desenhado na tela
+perto_do_npc = False     # Sabe se o jogador está colado no NPC
+
+
 # Função que gerencia a transição chamando a classe
 def carregar_fase(numero_da_fase):
     global fase_atual, plataformas_flutuantes, blocos_cenario, indice_fundo, plataformas

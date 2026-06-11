@@ -29,6 +29,11 @@ fonte_game_over = None
 sprites_bloco = []
 sprites_plataformas = []
 sprite_chao = None
+sprite_bloco_inventario = None
+sprite_itens = []
+sprite_npc1 = None
+sprite_balao_fala = None
+fonte_dialogo = None
 
 
 def carregar_e_escalar(caminho, altura):
@@ -39,12 +44,13 @@ def carregar_e_escalar(caminho, altura):
 
 
 def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
-    global sprite_tela_game_over, fundos, bloco_chao, sprite_personagem_scaled, sprites_parado, sprites_correndo
+    global sprite_bloco_inventario, fundos, bloco_chao, sprite_personagem_scaled, sprites_parado, sprites_correndo
     global sprite_prepara_pulo, sprite_no_ar, sprite_caindo, sprites_atacando, sprites_projeteis, sprite_coracao, sprite_coracao_vazio, sprites_status_face, sprites_personagem_pos_hit, sprites_pinguin_pos_hit
     global sprites_pinguin_parado, sprites_pinguin_andando, sprites_pinguin_atacando
-    global fonte_pixel_titulo, fonte_pixel_numero, fonte_game_over  
+    global sprite_npc1, sprite_balao_fala
+    global fonte_pixel_titulo, fonte_pixel_numero, fonte_game_over, fonte_hud_itens, fonte_dialogo 
     global sprites_blocos, sprites_plataformas, sprite_chao
-  
+    global sprite_tela_game_over, sprite_itens
 
     sprite_tela_game_over = pygame.transform.scale(
         pygame.image.load("imagens_e_texturas/tela game over.png").convert_alpha(), 
@@ -142,7 +148,7 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
         ]
     sprites_pinguin_pos_hit = [carregar_e_escalar(arq, ALTURA_PERSONAGEM) for arq in arquivo_pinguin_pos_hit]
 
-    # --- 3. PROJÉTEIS ---
+    # PROJÉTEIS
     sprites_projeteis = [
         pygame.transform.scale(pygame.image.load("png dos sprites/projetil tipo2 1.png").convert_alpha(), (120, 70)),
         pygame.transform.scale(pygame.image.load("png dos sprites/projetil tipo2 2.png").convert_alpha(), (120, 70))
@@ -185,7 +191,37 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     fonte_pixel_titulo = pygame.font.Font("imagens_e_texturas/fonte tema do jogo.ttf", 32) 
     fonte_pixel_numero = pygame.font.Font("imagens_e_texturas/fonte tema do jogo.ttf", 48) 
     fonte_game_over = pygame.font.Font("imagens_e_texturas/fonte tema do jogo.ttf", 22)
+    fonte_hud_itens = pygame.font.Font("imagens_e_texturas/fonte tema do jogo.ttf", 18)
+    fonte_dialogo = pygame.font.Font("imagens_e_texturas/fonte tema do jogo.ttf", 16)
  
+    sprite_bloco_inventario = pygame.image.load("png dos sprites/sprite_bloco_inventario.png").convert_alpha()
+    sprite_bloco_inventario = pygame.transform.scale(sprite_bloco_inventario, (65, 65))
+
+
+    sprite_item_cura = pygame.image.load("png dos sprites/sprite item de vida.png").convert_alpha()
+    sprite_item_energia = pygame.image.load("png dos sprites/sprite item de energia.png").convert_alpha()
+    sprite_item_escudo = pygame.image.load("png dos sprites/sprite item de escudo.png").convert_alpha()
+
+    sprite_itens = [
+        pygame.transform.scale(sprite_item_cura, (40, 40)),
+        pygame.transform.scale(sprite_item_energia, (40, 40)),
+        pygame.transform.scale(sprite_item_escudo, (40, 40))
+    ]
+    
+    sprite_npc1 = carregar_e_escalar("png dos sprites/duke parado1.png", ALTURA_PERSONAGEM)
+    sprite_npc1 = pygame.transform.flip(sprite_npc1, True, False)
+
+
+
+    sprite_balao_fala = pygame.image.load("png dos sprites/balao_fala.png").convert_alpha()
+
+    #tamanho do balão
+    sprite_balao_fala = pygame.transform.scale(sprite_balao_fala, (300, 100))
+
+
+
+
+
     return largura_final_base
 
 # Configurações da tela e cores

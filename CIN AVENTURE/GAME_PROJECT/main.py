@@ -14,6 +14,10 @@ largura_calculada = recursos.inicializar_recursos(config.tamanho_tela, config.AL
 jogador = Jogador(largura_calculada)
 pinguim = Inimigo()
 
+
+rect_npc1 = pygame.Rect(450, config.chao.y - 128, 64, 64)
+
+
 if recursos.sprites_pinguin_parado:
     config.inimigo_rect.width = recursos.sprites_pinguin_parado[0].get_width()
 
@@ -73,6 +77,36 @@ while config.rodando:
                     jogador.velocidade_y = -config.velocidade_pulo
                     jogador.pulando = True
 
+            if evento.type == pygame.KEYDOWN:
+             if evento.key == pygame.K_t:
+            # Se o jogador estiver perto do NPC ao apertar T
+               if config.perto_do_npc and config.indice_fundo == 0:
+                 if not config.mostrar_balao:
+                    # Se o balão estava fechado, abre ele na primeira frase
+                    config.mostrar_balao = True
+                    config.indice_dialogo = 0
+                 else:
+                    # Se o balão já estava aberto, avança para a próxima frase
+                    config.indice_dialogo += 1
+                    
+                    # Se as frases acabaram, fecha o balão
+                    if config.indice_dialogo >= len(config.dialogo_npc1):
+                        config.mostrar_balao = False
+
+
+        # LÓGICA DE PROXIMIDADE (Roda a cada frame no loop principal)
+
+#"área de conversa" ao redor do NPC aumentando o tamanho do retângulo dele
+        area_conversa = rect_npc1.inflate(100, 50) # Aumenta 100px pros lados e 50px pra cima/baixo
+
+        if jogador.rect.colliderect(area_conversa):
+         config.perto_do_npc = True
+
+        else:
+    # Se o jogador se afastar do NPC, o balão some automaticamente
+         config.perto_do_npc = False
+         config.mostrar_balao = False
+
         # Atualização do Jogador (Movimento, Física, Tiro e Animação)
         jogador.gerenciar_movimento(teclas)
         jogador.aplicar_gravidade_e_colisao()
@@ -89,6 +123,8 @@ while config.rodando:
                 pinguim.vida -= 1
                 if pinguim.vida <= 0:
                     pinguim.vivo = False  
+                    config.score += 100
+
                 config.tempo_descanso_inimigo = 0
                 continue 
                 
@@ -106,6 +142,7 @@ while config.rodando:
         else:
             sprite_inimigo_atual = None 
 
+  
         # Transição de Cenários
         if jogador.rect.x > 1920:
             if (config.fase_atual + 1) in config.fases:
@@ -135,6 +172,6 @@ while config.rodando:
             config.tempo_segundos += 1
             config.contador_frames_tempo = 0
 
-        render.desenhar_tudo(tela, jogador, pinguim, sprite_inimigo_atual, sprite_mostrar, fonte)
+        render.desenhar_tudo(tela, jogador, pinguim, sprite_inimigo_atual, sprite_mostrar, fonte, rect_npc1)
 
 pygame.quit()
