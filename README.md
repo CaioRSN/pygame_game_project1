@@ -42,13 +42,13 @@ Before running the game, you need to have **Python** installed on your machine.
 
 
 
-🎮 **Controls**
+## 🎮 **Controls**
 A / D: Move character (left and right).
 W or Spacebar: Jump.
 K: Attack Key
 T: Interact with NPCs (when standing nearby).
 
-👥 **Developers**
+## 👥 **Developers**
 
 <table>
   <tr>
@@ -72,8 +72,8 @@ T: Interact with NPCs (when standing nearby).
       </a>
     </td>
        <td align="center">
-      <a href="https://github.com/***">
-        <img src="https://github.com/***.png" width="100px;" alt="Dandara Mariama"/><br />
+      <a href="https://github.com/dandaramariama-dev">
+        <img src="https://github.com/dandaramariama-dev.png" width="100px;" alt="Dandara Mariama"/><br />
         <sub><b>Dandara Mariama</b></sub>
       </a>
     </td>
