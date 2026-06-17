@@ -32,7 +32,7 @@ Before running the game, you need to have **Python** installed on your machine.
      git clone https://github.com/CaioRSN/pygame_game_project1.git
    
 2. **Navigate to the project folder:**
-   cd pygame_game_project1
+   cd pygame_game_project1\'CIN AVENTURE'\GAME_PROJECT 
    
 3. **Install the Pygame library:**
   pip install pygame --- OR ---  pip install pygame-ce (if the version of your python is under 3.13)
@@ -60,8 +60,8 @@ T: Interact with NPCs (when standing nearby).
       </a>
     </td>
        <td align="center">
-      <a href="https://github.com/ ***">
-        <img src="https://github.com/***.png" width="100px;" alt="Arthur Martins"/><br />
+      <a href="https://github.com/abeck9455-cell">
+        <img src="https://github.com/abeck9455-cell.png" width="100px;" alt="Arthur Martins"/><br />
         <sub><b>Arthur Martins</b></sub>
       </a>
     </td>
