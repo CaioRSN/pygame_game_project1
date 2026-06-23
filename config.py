@@ -1,9 +1,6 @@
 import pygame
 from cenario import Cenario
-<<<<<<< HEAD
 from inimigo import Inimigo  # Importado aqui para gerar as instâncias de cada fase
-=======
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 
 tamanho_tela = (1920, 1080)
 AZUL = (0, 0, 255)
@@ -15,7 +12,6 @@ POS_Y_INICIAL = 500
 direcao = "direita"
 velocidade_jogador = 4.5
 
-<<<<<<< HEAD
 # === PASSO 1: O CHÃO VEM PRIMEIRO ===
 chao = pygame.Rect(0, 960, 1980, 120)
 
@@ -47,23 +43,14 @@ p2_f4.rect.x = 1400
 
 
 # === PASSO 3: O SISTEMA DE FASES VEM DEPOIS QUE OS INIMIGOS JÁ EXISTEM ===
-=======
-chao = pygame.Rect(0, 960, 1980, 120)
-
-# --- SISTEMA DE FASES USANDO A CLASSE ---
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 fase_atual = 0
 
 fases = {
     0: Cenario(
         indice_fundo=0,
         plataformas=[],
-<<<<<<< HEAD
         blocos=[],
         inimigos=[pinguim_f0]  # Passando a lista de inimigos direto na classe atualizada
-=======
-        blocos=[]
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
     ),
 
     1: Cenario(
@@ -79,7 +66,6 @@ fases = {
         blocos=[
             [pygame.Rect(1430, 520, 50, 50), 0],
             [pygame.Rect(1220, 470, 50, 50), 0]
-<<<<<<< HEAD
         ],
         inimigos=[p1_f1, p2_f1]
     ),
@@ -103,9 +89,6 @@ fases = {
         plataformas=[],
         blocos=[],
         inimigos=[p1_f4, p2_f4]
-=======
-        ]
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
     )
 }
 
@@ -113,10 +96,7 @@ fases = {
 plataformas_flutuantes = fases[fase_atual].plataformas_flutuantes
 blocos_cenario = fases[fase_atual].blocos_cenario
 indice_fundo = fases[fase_atual].indice_fundo
-<<<<<<< HEAD
 inimigos_cenario = fases[fase_atual].inimigos  
-=======
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 
 plataformas = [p[0] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
 
@@ -129,11 +109,7 @@ atacando = False
 projeteis = []
 indice_sprite_projetil = 0 
 ultimo_disparo = 0
-<<<<<<< HEAD
 cooldown_disparo = 2000
-=======
-cooldown_disparo = 3000 
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 frame_atual = 0
 
 rodando = True
@@ -167,11 +143,6 @@ inventario_quantidades = {
     "item_3": 0,
 }
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 dialogo_npc1 = [
     "PROFESSOR???!!!",
     "Acho que exagerei nos tickets e abri esse portal...",
@@ -180,44 +151,25 @@ dialogo_npc1 = [
     "para derrota-los e salvar o nosso tão amado CIN!",
 ]
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 # Variáveis de controle do sistema de diálogo
 indice_dialogo = 0       # Qual frase está aparecendo agora
 mostrar_balao = False    # Controla se o balão deve ser desenhado na tela
 perto_do_npc = False     # Sabe se o jogador está colado no NPC
 
-<<<<<<< HEAD
 inimigos_derrotados = {}
 
 def carregar_fase(numero_da_fase):
     global fase_atual, plataformas_flutuantes, blocos_cenario, indice_fundo, plataformas, inimigos_cenario
-=======
-
-# Função que gerencia a transição chamando a classe
-def carregar_fase(numero_da_fase):
-    global fase_atual, plataformas_flutuantes, blocos_cenario, indice_fundo, plataformas
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
     
     if numero_da_fase in fases:
         fase_atual = numero_da_fase
         
-<<<<<<< HEAD
+        fases[fase_atual].carregar()
+        
         plataformas_flutuantes = fases[fase_atual].plataformas_flutuantes
         blocos_cenario = fases[fase_atual].blocos_cenario
         indice_fundo = fases[fase_atual].indice_fundo
         inimigos_cenario = fases[fase_atual].inimigos 
         
         # Cria a lista invisível de colisão juntando os rects das duas listas anteriores
-=======
-        # Carrega os dados do objeto Cenario correspondente
-        fases[fase_atual].carregar()
-        
-        plataformas_flutuantes = fases[fase_atual].plataformas_flutuantes
-        blocos_cenario = fases[fase_atual].blocos_cenario
-        indice_fundo = fases[fase_atual].indice_fundo
-        
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
         plataformas = [p[0] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
