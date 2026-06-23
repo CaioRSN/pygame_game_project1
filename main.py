@@ -10,11 +10,7 @@ from inimigo import Inimigo
 pygame.init()
 
 tela = pygame.display.set_mode(config.tamanho_tela)
-<<<<<<< HEAD
 pygame.display.set_caption("Cin Adventure")
-=======
-pygame.display.set_caption("Cin aventure")
->>>>>>> a01b04bf399d562fdd5dd3a52179b349f67d6e35
 largura_calculada = recursos.inicializar_recursos(config.tamanho_tela, config.ALTURA_PERSONAGEM)
 
 jogador = Jogador(largura_calculada)
@@ -64,11 +60,7 @@ while config.rodando:
     tempo_atual = pygame.time.get_ticks()
     teclas = pygame.key.get_pressed() 
 
-<<<<<<< HEAD
     if config.no_menu:
-=======
-    if no_menu:
->>>>>>> a01b04bf399d562fdd5dd3a52179b349f67d6e35
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 config.rodando = False
@@ -249,10 +241,6 @@ while config.rodando:
             config.contador_frames_tempo = 0
 
         # Desenha tudo completo 
-<<<<<<< HEAD
         render.desenhar_tudo(tela, jogador, fonte, rect_npc1, sprite_mostrar)
-=======
-        render.desenhar_tudo(tela, jogador, pinguim, sprite_inimigo_atual, sprite_mostrar, fonte, rect_npc1)
->>>>>>> a01b04bf399d562fdd5dd3a52179b349f67d6e35
 
 pygame.quit()
