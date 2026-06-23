@@ -74,11 +74,7 @@ class Inimigo(pygame.sprite.Sprite):
             self.frame = 0.0
 
         if lista_animacao:
-<<<<<<< HEAD
             self.frame += velocidade_anim
-=======
-            self.frame += velocidad_anim
->>>>>>> a01b04bf399d562fdd5dd3a52179b349f67d6e35
             if self.frame >= len(lista_animacao):
                 self.frame = 0.0
             
