@@ -34,7 +34,11 @@ sprite_itens = []
 sprite_npc1 = None
 sprite_balao_fala = None
 fonte_dialogo = None
+<<<<<<< HEAD
 sprite_fundo_menu = None
+=======
+
+>>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 
 def carregar_e_escalar(caminho, altura):
     img = pygame.image.load(caminho).convert_alpha()
@@ -50,12 +54,16 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     global sprite_npc1, sprite_balao_fala
     global fonte_pixel_titulo, fonte_pixel_numero, fonte_game_over, fonte_hud_itens, fonte_dialogo 
     global sprites_blocos, sprites_plataformas, sprite_chao
+<<<<<<< HEAD
     global sprite_tela_game_over, sprite_fundo_menu, sprite_itens
     
     sprite_fundo_menu = pygame.transform.scale(
         pygame.image.load("imagens_e_texturas/tela_inicial.png").convert_alpha(), 
         TAMANHO_TELA
     )
+=======
+    global sprite_tela_game_over, sprite_itens
+>>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 
     sprite_tela_game_over = pygame.transform.scale(
         pygame.image.load("imagens_e_texturas/tela game over.png").convert_alpha(), 
@@ -64,6 +72,7 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
 
     # --- CARREGAMENTO DOS FUNDOS ---
     fundos = [
+<<<<<<< HEAD
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario1.jpg"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario2.png"), TAMANHO_TELA), 
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario3.png"), TAMANHO_TELA),
@@ -71,6 +80,15 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario5.png"), TAMANHO_TELA),
     ]
 
+=======
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/background 2.jpg"), TAMANHO_TELA),
+
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario2.png"), TAMANHO_TELA) 
+    ]
+
+    textura_chao = pygame.image.load("imagens_e_texturas/texturachao 2.png")
+    bloco_chao = pygame.transform.scale(textura_chao, (100, 100))
+>>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 
     #CHAO
     sprite_chao = pygame.image.load("imagens_e_texturas/chao-tijolinho.jpg").convert_alpha()

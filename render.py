@@ -1,6 +1,7 @@
 import pygame
 import config
 import recursos
+<<<<<<< HEAD
 
 import math #pra ajudar nos calculos de sombreamento
 
@@ -85,6 +86,11 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
             tela.blit(texto, (tx, ty))
 
 def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
+=======
+import math
+
+def desenhar_tudo(tela, jogador, pinguim, sprite_inimigo_atual, sprite_mostrar, fonte, rect_npc):
+>>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
     
     tela.blit(recursos.fundos[config.indice_fundo], (0, 0))
 
@@ -221,6 +227,7 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
     # Desenha o jogador
     jogador.desenhar(tela, sprite_mostrar)
     
+<<<<<<< HEAD
     if recursos.sprites_pinguin_parado:
         for pinguim_atual in config.inimigos_cenario:
             if pinguim_atual.vivo:
@@ -229,6 +236,16 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
                 if sprite_do_pinguim is not None:
                     tela.blit(sprite_do_pinguim, (pinguim_atual.rect.x, pinguim_atual.rect.y))
 
+=======
+    # Desenha o pinguim
+    if recursos.sprites_pinguin_parado and sprite_inimigo_atual is not None and pinguim.vivo:
+        if config.direcao_inimigo == "esquerda":
+            sprite_inimigo_mostrar = pygame.transform.flip(sprite_inimigo_atual, True, False)
+        else:
+            sprite_inimigo_mostrar = sprite_inimigo_atual
+
+        tela.blit(sprite_inimigo_mostrar, (pinguim.rect.x, pinguim.rect.y))
+>>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
 
     # Desenha os tiros
     for tiro in config.projeteis:
