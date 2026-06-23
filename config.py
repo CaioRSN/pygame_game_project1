@@ -157,7 +157,10 @@ mostrar_balao = False    # Controla se o balão deve ser desenhado na tela
 perto_do_npc = False     # Sabe se o jogador está colado no NPC
 
 inimigos_derrotados = {}
+<<<<<<< HEAD
 no_menu = False
+=======
+>>>>>>> a01b04bf399d562fdd5dd3a52179b349f67d6e35
 
 def carregar_fase(numero_da_fase):
     global fase_atual, plataformas_flutuantes, blocos_cenario, indice_fundo, plataformas, inimigos_cenario
