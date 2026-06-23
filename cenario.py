@@ -1,4 +1,6 @@
-<<<<<<< HEAD
+import config
+import copy
+
 class Cenario:
   
   def __init__(self, indice_fundo, plataformas, blocos, inimigos):
@@ -16,23 +18,15 @@ class Cenario:
         self.carregar()
 
   def carregar(self):
+        config.indice_fundo = self.indice_fundo
         
         self.plataformas_flutuantes = list(self.plataformas_originais)
         self.blocos_cenario = list(self.blocos_originais)
         
-        import copy
+        # Faz uma cópia dos inimigos originais para reiniciar o estado deles na fase
         self.inimigos = copy.deepcopy(self.inimigos_originais)
-=======
-import config
-
-class Cenario:
-    def __init__(self, indice_fundo, plataformas, blocos):
-        self.indice_fundo = indice_fundo
-        self.plataformas_flutuantes = plataformas
-        self.blocos_cenario = blocos
-
-    def carregar(self):
-        config.indice_fundo = self.indice_fundo
+        
+        # Atualiza o arquivo de configuração global
         config.plataformas_flutuantes = self.plataformas_flutuantes
         config.blocos_cenario = self.blocos_cenario
->>>>>>> 6bf9d4e27b6ccccba47567619f2bc691bfc7553b
+        config.inimigos_cenario = self.inimigos
