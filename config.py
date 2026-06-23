@@ -12,10 +12,9 @@ POS_Y_INICIAL = 500
 direcao = "direita"
 velocidade_jogador = 4.5
 
-# === PASSO 1: O CHÃO VEM PRIMEIRO ===
 chao = pygame.Rect(0, 960, 1980, 120)
 
-# === PASSO 2: OS INIMIGOS VÊM LOGO DEPOIS DO CHÃO ===
+
 # Inimigos da Fase 0 (Cenário 1) 
 pinguim_f0 = Inimigo()
 pinguim_f0.rect.x = 1500  
@@ -42,7 +41,6 @@ p2_f4 = Inimigo()
 p2_f4.rect.x = 1400
 
 
-# === PASSO 3: O SISTEMA DE FASES VEM DEPOIS QUE OS INIMIGOS JÁ EXISTEM ===
 fase_atual = 0
 
 fases = {
@@ -157,10 +155,7 @@ mostrar_balao = False    # Controla se o balão deve ser desenhado na tela
 perto_do_npc = False     # Sabe se o jogador está colado no NPC
 
 inimigos_derrotados = {}
-<<<<<<< HEAD
 no_menu = False
-=======
->>>>>>> a01b04bf399d562fdd5dd3a52179b349f67d6e35
 
 def carregar_fase(numero_da_fase):
     global fase_atual, plataformas_flutuantes, blocos_cenario, indice_fundo, plataformas, inimigos_cenario
