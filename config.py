@@ -171,4 +171,14 @@ def carregar_fase(numero_da_fase):
         inimigos_cenario = fases[fase_atual].inimigos 
         
         # Cria a lista invisível de colisão juntando os rects das duas listas anteriores
-        plataformas = [p[0] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
+        plataformas = [p["rect"] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
+itens_no_chao = []
+
+inventario = {
+    "energia": 0,
+    "escudo": 0,
+    "vida": 0
+}
+
+velocidade_aumentada = False
+tempo_escudo_restante = 0
