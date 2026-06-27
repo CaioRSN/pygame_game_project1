@@ -66,7 +66,9 @@ class Jogador(pygame.sprite.Sprite):
             self.pulando = False 
 
         for lista_plat in config.plataformas_flutuantes:
-            rect_colisao = lista_plat[0]
+            if lista_plat["invisivel"]: 
+                continue
+            rect_colisao = lista_plat["rect"]
             if self.rect.colliderect(rect_colisao) and self.velocidade_y >= 0:
                 if self.rect.bottom <= rect_colisao.top + self.velocidade_y + 1:
                     self.rect.bottom = rect_colisao.top
@@ -91,12 +93,14 @@ class Jogador(pygame.sprite.Sprite):
             self.invulneravel -= 1
 
     def desenhar(self, tela, sprite_mostrar):
-        pos_x_centralizado = self.rect.centerx - (sprite_mostrar.get_width() // 2)
-        
-        # Faz o personagem piscar se estiver invulnerável
-        if self.invulneravel > 0 and (self.invulneravel // 4) % 2 == 0:
+        if sprite_mostrar is None:
             return
             
+        pos_x_centralizado = self.rect.centerx - (sprite_mostrar.get_width() // 2)
+
+        if self.invulneravel > 0 and (self.invulneravel // 4) % 2 == 0:
+            return
+
         tela.blit(sprite_mostrar, (pos_x_centralizado, self.rect.y))
     
     def atualizar_tiro(self, teclas, tempo_atual):
