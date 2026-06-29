@@ -81,30 +81,28 @@ fases = {
         indice_fundo=3,
         # DISTRIBUIÇÃO EM DUPLA ALTURA (Pontes paralelas rebaixadas)
         plataformas=[
-            [pygame.Rect(150, 830, 200, 60), 1], 
-            [pygame.Rect(450, 710, 200, 60), 1],  
-            [pygame.Rect(750, 590, 250, 60), 1],  
-            [pygame.Rect(1100, 650, 200, 60), 1], 
-            [pygame.Rect(1400, 720, 200, 60), 1], 
-            [pygame.Rect(1650, 600, 200, 60), 1], 
+            [pygame.Rect(150, 830, 200, 60), 1],  # Base esquerda 
+            [pygame.Rect(450, 710, 200, 60), 1],  # Degrau intermediário 
+            [pygame.Rect(750, 590, 250, 60), 1],  # Grande plataforma central
+            [pygame.Rect(1100, 650, 200, 60), 1], # Descida de segurança
+            [pygame.Rect(1400, 720, 200, 60), 1], # Conector da direita 
+            [pygame.Rect(1650, 600, 200, 60), 1], # Saída na direita alta 
         ],
         blocos=[
-            [pygame.Rect(525, 620, 50, 50), 0],   
-            [pygame.Rect(1175, 620, 50, 50), 0],  
         ],
         inimigos=[p1_f3, p2_f3]
     ),
     4: Cenario(
         indice_fundo=4,
-       
+        # ARENA BILATERAL (Plataformas centrais trazidas para o alcance do pulo)
         plataformas=[
-            [pygame.Rect(150, 720, 220, 50), 1],  
-            [pygame.Rect(450, 590, 200, 50), 1], 
-          
-            [pygame.Rect(750, 480, 180, 50), 1], 
-            [pygame.Rect(1020, 480, 180, 50), 1], 
-            [pygame.Rect(1300, 590, 200, 50), 1],
-            [pygame.Rect(1580, 720, 220, 50), 1], 
+            [pygame.Rect(150, 720, 220, 50), 1],  # Lateral extrema esquerda
+            [pygame.Rect(450, 590, 200, 50), 1],  # Degrau esquerdo para o centro 
+            # AS DUAS PLATAFORMAS CENTRAIS 
+            [pygame.Rect(750, 480, 180, 50), 1],  # Central esquerda
+            [pygame.Rect(1020, 480, 180, 50), 1], # Central direita
+            [pygame.Rect(1300, 590, 200, 50), 1], # Degrau direito para o centro 
+            [pygame.Rect(1580, 720, 220, 50), 1], # Lateral extrema direita
         ],
         blocos=[
             [pygame.Rect(230, 850, 60, 110), 0],
@@ -169,7 +167,7 @@ dialogo_npc1 = [
 indice_dialogo = 0
 mostrar_balao = False
 perto_do_npc = False
-no_menu = True
+no_menu = False
 
 def carregar_fase(numero_da_fase):
     global fase_atual, plataformas_flutuantes, blocos_cenario, indice_fundo, plataformas, inimigos_cenario, crachas_gerados_na_fase
@@ -184,5 +182,5 @@ def carregar_fase(numero_da_fase):
         # Garante o reset global para liberar o spawn na nova fase
         crachas_gerados_na_fase = False
         
-        # pra garantir a leitura de dicionários para plataformas e listas para blocos
+        # Garante a leitura compatível de dicionários para plataformas e listas para blocos
         plataformas = [p["rect"] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
