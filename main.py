@@ -7,7 +7,8 @@ from jogador import Jogador
 from inimigo import Inimigo
 import random
 import math
-
+# cd pygame_game_project1-main
+# python pygame_game_project1-main/main.py
 class ItemColetavel:
     def __init__(self, tipo, x, y):
         self.tipo = tipo  # 'vida', 'energia' ou 'escudo'
