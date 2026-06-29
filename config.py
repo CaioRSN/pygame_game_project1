@@ -81,12 +81,12 @@ fases = {
         indice_fundo=3,
         # DISTRIBUIÇÃO EM DUPLA ALTURA (Pontes paralelas rebaixadas)
         plataformas=[
-            [pygame.Rect(150, 830, 200, 60), 1],  # Base esquerda (Baixado de 780 para 830 -> salto de 130px do chão)
-            [pygame.Rect(450, 710, 200, 60), 1],  # Degrau intermediário (Baixado de 650 para 710 -> salto de 120px)
-            [pygame.Rect(750, 590, 250, 60), 1],  # Grande plataforma central (Baixado de 520 para 590 -> salto de 120px)
-            [pygame.Rect(1100, 650, 200, 60), 1], # Descida de segurança (Baixado de 620 para 650)
-            [pygame.Rect(1400, 720, 200, 60), 1], # Conector da direita (Mantido)
-            [pygame.Rect(1650, 600, 200, 60), 1], # Saída na direita alta (Baixado de 590 para 600 -> salto de 120px)
+            [pygame.Rect(150, 830, 200, 60), 1],  # Base esquerda 
+            [pygame.Rect(450, 710, 200, 60), 1],  # Degrau intermediário 
+            [pygame.Rect(750, 590, 250, 60), 1],  # Grande plataforma central
+            [pygame.Rect(1100, 650, 200, 60), 1], # Descida de segurança
+            [pygame.Rect(1400, 720, 200, 60), 1], # Conector da direita 
+            [pygame.Rect(1650, 600, 200, 60), 1], # Saída na direita alta 
         ],
         blocos=[
             [pygame.Rect(525, 620, 50, 50), 0],   # Ajustado para o novo Y das plataformas
@@ -99,11 +99,11 @@ fases = {
         # ARENA BILATERAL (Plataformas centrais trazidas para o alcance do pulo)
         plataformas=[
             [pygame.Rect(150, 720, 220, 50), 1],  # Lateral extrema esquerda
-            [pygame.Rect(450, 590, 200, 50), 1],  # Degrau esquerdo para o centro (Y corrigido de 570 para 590)
-            # AS DUAS PLATAFORMAS CENTRAIS (Y corrigido de 450 para 480 para o pulo alcançar)
+            [pygame.Rect(450, 590, 200, 50), 1],  # Degrau esquerdo para o centro 
+            # AS DUAS PLATAFORMAS CENTRAIS 
             [pygame.Rect(750, 480, 180, 50), 1],  # Central esquerda
             [pygame.Rect(1020, 480, 180, 50), 1], # Central direita
-            [pygame.Rect(1300, 590, 200, 50), 1], # Degrau direito para o centro (Y corrigido de 570 para 590)
+            [pygame.Rect(1300, 590, 200, 50), 1], # Degrau direito para o centro 
             [pygame.Rect(1580, 720, 220, 50), 1], # Lateral extrema direita
         ],
         blocos=[
