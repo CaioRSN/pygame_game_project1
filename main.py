@@ -7,8 +7,7 @@ from jogador import Jogador
 from inimigo import Inimigo
 import random
 import math
-# cd pygame_game_project1-main
-# python pygame_game_project1-main/main.py
+
 class ItemColetavel:
     def __init__(self, tipo, x, y):
         self.tipo = tipo  # 'vida', 'energia' ou 'escudo'
@@ -99,14 +98,19 @@ def reiniciar_jogo():
 menu_selecionado = 0
 mostrar_controles = False
 
-# --- LOOP EXCLUSIVO DA TELA INICIAL ---
+# --- AJUSTE DOS ESTADOS INICIAIS ---
+na_tela_inicial = False
+config.no_menu = True    # Garante que o menu com opções vai abrir depois
+
+# LOOP EXCLUSIVO DA TELA INICIAL
 while na_tela_inicial and config.rodando:
     clock.tick(60)
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             config.rodando = False
             na_tela_inicial = False
-        if evento.type == pygame.KEYDOWN:
+        # Qualquer tecla ou clique faz avançar para o Menu Interativo
+        if evento.type == pygame.KEYDOWN or evento.type == pygame.MOUSEBUTTONDOWN:
             na_tela_inicial = False
 
     tela.blit(img_tela_inicial, (0, 0))
@@ -141,21 +145,25 @@ while config.rodando:
             if evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_ESCAPE:
                     mostrar_controles = False
-                elif evento.key == pygame.K_SPACE:
-                    if mostrar_controles:
+                
+                if mostrar_controles:
+                    if evento.key == pygame.K_SPACE:
                         mostrar_controles = False
-                    if not mostrar_controles:
-                        if evento.key in (pygame.K_DOWN, pygame.K_s):
-                            menu_selecionado = (menu_selecionado + 1) % 3
-                        elif evento.key in (pygame.K_UP, pygame.K_w):
-                            menu_selecionado = (menu_selecionado - 1) % 3
-                        elif evento.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
-                            if menu_selecionado == 0:
-                                config.no_menu = False
-                            elif menu_selecionado == 1:
-                                mostrar_controles = True
-                            elif menu_selecionado == 2:
-                                config.rodando = False
+                else:
+                    # Movimentação nas opções do menu
+                    if evento.key in (pygame.K_DOWN, pygame.K_s):
+                        menu_selecionado = (menu_selecionado + 1) % 3
+                    elif evento.key in (pygame.K_UP, pygame.K_w):
+                        menu_selecionado = (menu_selecionado - 1) % 3
+                    # Confirmar a opção selecionada
+                    elif evento.key in (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_SPACE):
+                        if menu_selecionado == 0:
+                            config.no_menu = False  # Inicia o jogo
+                        elif menu_selecionado == 1:
+                            mostrar_controles = True # Abre os controles
+                        elif menu_selecionado == 2:
+                            config.rodando = False   # Sair do jogo
+                            
         render.desenhar_menu(tela, menu_selecionado, mostrar_controles)
         pygame.display.flip()
         continue
