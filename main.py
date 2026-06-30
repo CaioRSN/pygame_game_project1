@@ -77,6 +77,7 @@ if not hasattr(config, 'crachas_gerados_na_fase'):
 
 config.carregar_fase(0)
 
+# função para reiniciar o jogo
 def reiniciar_jogo():
     jogador.vida_atual = jogador.vida_maxima
     jogador.em_hit = False
