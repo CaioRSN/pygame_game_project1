@@ -96,6 +96,25 @@ def reiniciar_jogo():
     jogador.velocidade_y = 0
     config.carregar_fase(config.fase_atual)
 
+
+def usar_vida():
+    if config.inventario["vida"] > 0:
+        if jogador.vida_atual < jogador.vida_maxima:
+            config.inventario["vida"] -= 1
+            jogador.vida_atual += 1
+
+def usar_energia():
+    if config.inventario["energia"] > 0:
+        config.inventario["energia"] -= 1
+        config.tempo_energia_restante = 600
+        config.cooldown_tiro_reduzido = True
+        jogador.velocidade = 10
+
+def usar_escudo():
+    if config.inventario["escudo"] > 0:
+        config.inventario["escudo"] -= 1
+        config.tempo_escudo_restante = 600
+
 menu_selecionado = 0
 mostrar_controles = False
 
@@ -186,33 +205,7 @@ while config.rodando:
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             config.rodando = False
-            
-        if evento.type == pygame.MOUSEBUTTONDOWN:
-            if evento.button == 1:
-                mx, my = pygame.mouse.get_pos()
-                posicoes_x = [195, 260, 325]
-                y_pos = 95
-                largura_slot = 50
-                altura_slot = 50
-                
-                if posicoes_x[0] <= mx <= posicoes_x[0] + largura_slot and y_pos <= my <= y_pos + altura_slot:
-                    if config.inventario["vida"] > 0:
-                        if jogador.vida_atual < jogador.vida_maxima:
-                            config.inventario["vida"] -= 1
-                            jogador.vida_atual += 1
-                            
-                elif posicoes_x[1] <= mx <= posicoes_x[1] + largura_slot and y_pos <= my <= y_pos + altura_slot:
-                    if config.inventario["energia"] > 0:
-                        config.inventario["energia"] -= 1
-                        config.tempo_energia_restante = 600
-                        config.cooldown_tiro_reduzido = True
-                        jogador.velocidade = 10
-                        
-                elif posicoes_x[2] <= mx <= posicoes_x[2] + largura_slot and y_pos <= my <= y_pos + altura_slot:
-                    if config.inventario["escudo"] > 0:
-                        config.inventario["escudo"] -= 1
-                        config.tempo_escudo_restante = 600
-
+                    
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_SPACE and not jogador.pulando and not jogador.em_hit:
                 jogador.pulando = True
@@ -227,6 +220,15 @@ while config.rodando:
                         config.indice_dialogo += 1
                         if config.indice_dialogo >= len(config.dialogo_npc1):
                             config.mostrar_balao = False
+
+            if evento.key == pygame.K_1:
+                usar_vida()
+
+            if evento.key == pygame.K_2:
+                usar_energia()
+
+            if evento.key == pygame.K_3:
+                usar_escudo()
 
     area_conversa = rect_npc1.inflate(100, 50)
     if jogador.rect.colliderect(area_conversa):
