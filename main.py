@@ -39,8 +39,8 @@ na_tela_inicial = True
 # Carrega a imagem do crachá para ser usada no spawn e HUD
 try:
     img_cracha_original = pygame.image.load("png dos sprites/objeto cracha.png").convert_alpha()
-    img_cracha = pygame.transform.scale(img_cracha_original, (40, 40))
-    img_cracha_hud = pygame.transform.scale(img_cracha_original, (35, 35))
+    img_cracha = pygame.transform.scale(img_cracha_original, (50, 50))
+    img_cracha_hud = pygame.transform.scale(img_cracha_original, (45, 45))
 except Exception as e:
     print(e)
     img_cracha = pygame.Surface((40, 40))
@@ -313,7 +313,7 @@ while config.rodando:
         config.tempo_segundos += 1
         config.contador_frames_tempo = 0
 
-    render.desenhar_tudo(tela, jogador, fonte, rect_npc1, sprite_jogador_atual)
+    render.desenhar_tudo(tela, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
 
     for item in config.itens_no_chao[:]:
         if isinstance(item, ItemColetavel):
@@ -327,9 +327,8 @@ while config.rodando:
                 config.inventario["cracha"] += 1
                 config.itens_no_chao.remove(item)
 
-    tela.blit(img_cracha_hud, (1780, 30))
-    texto_cracha = fonte_hud_cracha.render(f"x {config.inventario['cracha']}", True, (255, 255, 255))
-    tela.blit(texto_cracha, (1825, 32))
+# DESENHAR CONTADOR DE CRACHAS NA HUD
+    x_slot_cracha = 390
 
     pygame.display.flip()
 
