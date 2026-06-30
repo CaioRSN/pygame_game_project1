@@ -37,17 +37,6 @@ pygame.display.set_caption("Cin Adventure")
 largura_calculada = recursos.inicializar_recursos((LARGURA_VIRTUAL, ALTURA_VIRTUAL), config.ALTURA_PERSONAGEM)
 jogador = Jogador(largura_calculada)
 
-# CARREGAMENTO DA TELA INICIAL
-try:
-    img_tela_inicial = pygame.image.load("imagens_e_texturas/tela_inicial.png").convert()
-    img_tela_inicial = pygame.transform.scale(img_tela_inicial, (LARGURA_VIRTUAL, ALTURA_VIRTUAL))
-except Exception as e:
-    print("Erro ao carregar tela inicial:", e)
-    img_tela_inicial = pygame.Surface((LARGURA_VIRTUAL, ALTURA_VIRTUAL))
-    img_tela_inicial.fill((20, 20, 30))
-
-na_tela_inicial = True
-
 # Carrega a imagem do crachá para ser usada no spawn e HUD
 try:
     img_cracha_original = pygame.image.load("png dos sprites/objeto cracha.png").convert_alpha()
@@ -91,22 +80,39 @@ if not hasattr(config, 'crachas_gerados_na_fase'):
 config.carregar_fase(0)
 
 def reiniciar_jogo():
+    # Reseta a vida do jogador
     jogador.vida_atual = jogador.vida_maxima
     jogador.em_hit = False
     jogador.invulneravel = 0
+    
+    # Reseta estados do jogo e pontuação
     config.game_over = False
+    config.score = 0  # ZERA O SCORE
     config.tempo_descanso_inimigo = 0
+    
+    # Reseta efeitos de itens ativos
     config.velocidade_aumentada = False
     config.tempo_escudo_restante = 0
     config.tempo_energia_restante = 0
     config.cooldown_tiro_reduzido = False
     jogador.velocidade = 5
+    
+    # Limpa projéteis e drops do chão
     config.projeteis.clear()
     config.itens_no_chao.clear()
+    
+    # ZERA O INVENTÁRIO COMPLETAMENTE
+    config.inventario = {"vida": 0, "energia": 0, "escudo": 0, "cracha": 0}
+    config.crachas_gerados_na_fase = False
+    
+    # VOLTA PARA O COMEÇO 
+    config.fase_atual = 0
     jogador.rect.x = config.POS_X_INICIAL
     jogador.rect.y = config.POS_Y_INICIAL
     jogador.velocidade_y = 0
-    config.carregar_fase(config.fase_atual)
+    
+    # Recarrega o mapa inicial
+    config.carregar_fase(0)
 
 def usar_vida():
     if config.inventario["vida"] > 0:
@@ -130,24 +136,6 @@ menu_selecionado = 0
 mostrar_controles = False
 
 config.no_menu = True
-
-# LOOP EXCLUSIVO DA TELA INICIAL
-while na_tela_inicial and config.rodando:
-    clock.tick(60)
-    for evento in pygame.event.get():
-        if evento.type == pygame.QUIT:
-            config.rodando = False
-            na_tela_inicial = False
-        elif evento.type == pygame.VIDEORESIZE:
-            largura_janela_real, altura_janela_real = evento.w, evento.h
-            tela_real = pygame.display.set_mode((largura_janela_real, altura_janela_real), pygame.RESIZABLE)
-        if evento.type == pygame.KEYDOWN or evento.type == pygame.MOUSEBUTTONDOWN:
-            na_tela_inicial = False
-
-    superficie_virtual.blit(img_tela_inicial, (0, 0))
-    tela_redimensionada = pygame.transform.scale(superficie_virtual, (largura_janela_real, altura_janela_real))
-    tela_real.blit(tela_redimensionada, (0, 0))
-    pygame.display.flip()
 
 # LOOP PRINCIPAL DO JOGO
 while config.rodando:
@@ -243,7 +231,7 @@ while config.rodando:
                         config.indice_dialogo = 0
                     else:
                         config.indice_dialogo += 1
-                        if config.indice_dialogo >= len(config.dialogo_npcl):
+                        if config.indice_dialogo >= len(config.dialogo_npc1):
                             config.mostrar_balao = False
             if evento.key == pygame.K_1:
                 usar_vida()
@@ -298,22 +286,27 @@ while config.rodando:
                         break
 
     if jogador.rect.x > 1920 or jogador.rect.x < 0:
-        if config.fase_atual <= 4:
-            nova_fase = config.fase_atual + 1 if jogador.rect.x > 1920 else config.fase_atual
-            if jogador.rect.x < 0 and config.fase_atual > 0:
-                nova_fase = config.fase_atual - 1
-            if nova_fase in config.fases:
-                config.carregar_fase(nova_fase)
-                config.projeteis.clear()
-                config.itens_no_chao.clear()
-                if jogador.rect.x > 1920:
-                    jogador.rect.x = 10
-                else:
-                    jogador.rect.x = 1910
+        # Define se existe uma próxima fase ou uma fase anterior
+        pode_avancar = (jogador.rect.x > 1920) and ((config.fase_atual + 1) in config.fases)
+        pode_voltar = (jogador.rect.x < 0) and ((config.fase_atual - 1) in config.fases)
+
+        if pode_avancar:
+            config.fase_atual += 1
+            config.carregar_fase(config.fase_atual)
+            config.projeteis.clear()
+            config.itens_no_chao.clear()
+            jogador.rect.x = 10  # Brota no início da nova fase
+        elif pode_voltar:
+            config.fase_atual -= 1
+            config.carregar_fase(config.fase_atual)
+            config.projeteis.clear()
+            config.itens_no_chao.clear()
+            jogador.rect.x = 1910  # Brota no final da fase anterior
         else:
+            # Se NÃO houver outra fase, ele bate na parede invisível e não passa
             if jogador.rect.x > 1920:
                 jogador.rect.right = 1920
-            else:
+            elif jogador.rect.x < 0:
                 jogador.rect.x = 0
 
     if recursos.sprites_status_face:
