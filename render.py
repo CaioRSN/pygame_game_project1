@@ -204,7 +204,7 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar, img_cracha_hud
             tela.blit(texto_dica, (dica_x, dica_y))
             
         if config.mostrar_balao:
-            frase_atual = config.dialogo_npcl[config.indice_dialogo]
+            frase_atual = config.dialogo_npc1[config.indice_dialogo]
             NOME_NPC = "ARTHUR DUQUE"
             COR_FUNDO = (245, 245, 235)
             COR_BORDA = (20, 20, 20)
