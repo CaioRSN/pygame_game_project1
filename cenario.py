@@ -46,7 +46,6 @@ class Cenario:
         config.inimigos_cenario = self.inimigos
 
     def spawnar_crachas(self, img_cracha):
-
         if not self.plataformas_flutuantes:
             return # Não há plataformas para spawnar
 
@@ -58,13 +57,12 @@ class Cenario:
         # Cria um coletável para cada plataforma encontrada nessa altura máxima
         for plat in plataformas_mais_altas:
             rect_plat = plat["rect"]
-            # Centraliza o crachá horizontalmente em cima da plataforma
-            x_item = rect_plat.x + (rect_plat.width // 2) - 20 
-            y_item = rect_plat.y - 45 # Posicionado logo acima do topo
+            x_item = rect_plat.x + (rect_plat.width // 2) - 27 
+            y_item = rect_plat.y - 65 
 
             config.itens_no_chao.append({
                 "tipo": "cracha",
-                "rect": pygame.Rect(x_item, y_item, 40, 40),
+                "rect": pygame.Rect(x_item, y_item, 55, 55), 
                 "imagem": img_cracha
             })
         # função que atualiza as colisões
