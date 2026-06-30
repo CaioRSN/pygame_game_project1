@@ -217,6 +217,9 @@ while config.rodando:
             if evento.key == pygame.K_SPACE and not jogador.pulando and not jogador.em_hit:
                 jogador.pulando = True
                 jogador.velocidade_y = -config.velocidade_pulo
+            if evento.key == pygame.K_UP and not jogador.pulando and not jogador.em_hit:
+                jogador.pulando = True
+                jogador.velocidade_y = -config.velocidade_pulo
                 
             if evento.key == pygame.K_t:
                 if config.perto_do_npc and config.fase_atual == 0:
