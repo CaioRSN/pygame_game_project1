@@ -28,9 +28,9 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
         controles = [
             "CONTROLES",
             "",
-            "A/D: Mover Personagem",
-            "Espaco: Pular",
-            "K: Atirar Projetil",
+            "→/← A/D: Mover Personagem",
+            "↑ / Espaço: Pular",
+            "k: Atirar Projetil",
             "T: Interagir com NPCs",
             "Esc: Voltar"
         ]

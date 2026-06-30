@@ -33,6 +33,12 @@ class Jogador(pygame.sprite.Sprite):
         andando_direita = False
         andando_esquerda = False
 
+        if teclas[pygame.K_RIGHT]:
+            velocidade_x += self.velocidade  # Usa a velocidade dinâmica do jogador
+            andando_direita = True
+        if teclas[pygame.K_LEFT]:
+            velocidade_x -= self.velocidade  # Usa a velocidade dinâmica do jogador
+            andando_esquerda = True
         if teclas[pygame.K_d]:
             velocidade_x += self.velocidade  # Usa a velocidade dinâmica do jogador
             andando_direita = True
