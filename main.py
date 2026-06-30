@@ -38,7 +38,7 @@ na_tela_inicial = True
 
 # Carrega a imagem do crachá para ser usada no spawn e HUD
 try:
-    img_cracha_original = pygame.image.load("objeto cracha.png").convert_alpha()
+    img_cracha_original = pygame.image.load("png dos sprites/objeto cracha.png").convert_alpha()
     img_cracha = pygame.transform.scale(img_cracha_original, (40, 40))
     img_cracha_hud = pygame.transform.scale(img_cracha_original, (35, 35))
 except Exception as e:
