@@ -252,14 +252,43 @@ while config.rodando:
         if (tiro.rect.x > 1920 or tiro.rect.x < 0) and tiro in config.projeteis:
             config.projeteis.remove(tiro)
 
+
     for pinguim_atual in config.inimigos_cenario[:]:
         if pinguim_atual.vivo:
             pinguim_atual.atualizar_ia(jogador.rect)
-            if jogador.rect.colliderect(pinguim_atual.rect):
-                if config.tempo_escudo_restante <= 0:
-                    if jogador.receber_dano(pinguim_atual):
-                        config.game_over = True
+            
+            # Verifica se o corpo do pinguim encostou no jogador
+            colisao_corpo = jogador.rect.colliderect(pinguim_atual.rect)
+            
+            # Verifica se o pinguim está atacando e o alcance do taco atinge o jogador
+            alcance_ataque = False
+            if pinguim_atual.estado == "atacando":
+                alcance_taco = 95  # Alcance extra para cobrir os 85px onde o pinguim para
+                
+                if pinguim_atual.direcao == "esquerda":
+                    hitbox_ataque = pygame.Rect(
+                        pinguim_atual.rect.x - alcance_taco, 
+                        pinguim_atual.rect.y, 
+                        pinguim_atual.rect.width + alcance_taco, 
+                        pinguim_atual.rect.height
+                    )
+                else:
+                    hitbox_ataque = pygame.Rect(
+                        pinguim_atual.rect.x, 
+                        pinguim_atual.rect.y, 
+                        pinguim_atual.rect.width + alcance_taco, 
+                        pinguim_atual.rect.height
+                    )
+                
+                alcance_ataque = jogador.rect.colliderect(hitbox_ataque)
+
+            # Se houver colisão por corpo OU pelo alcance do ataque, o jogador toma dano
+            if colisao_corpo or alcance_ataque: 
+                if config.tempo_escudo_restante <= 0: 
+                    if jogador.receber_dano(pinguim_atual): 
+                        config.game_over = True 
                         
+            # Mecânica de tiro atingindo o pinguim 
             for tiro in config.projeteis[:]:
                 if tiro.rect.colliderect(pinguim_atual.rect):
                     if tiro in config.projeteis:

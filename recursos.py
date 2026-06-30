@@ -163,8 +163,11 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
    ]
     sprites_pinguin_andando = [carregar_e_escalar(arq, ALTURA_PERSONAGEM) for arq in arquivo_pinguin_andando]
     arquivo_pinguin_atacando = [
-        "png dos sprites/pinguin attaq 1.png",
-        "png dos sprites/pinguin attaq 2.png"
+        "png dos sprites/pinguim attaq 1.png",
+        "png dos sprites/pinguim attaq 2.png",
+        "png dos sprites/pinguim attaq 3.png",
+        "png dos sprites/pinguim attaq 4.png",
+        "png dos sprites/pinguim attaq 5.png"
     ]
     sprites_pinguin_atacando = [carregar_e_escalar(arq, ALTURA_PERSONAGEM) for arq in arquivo_pinguin_atacando]
     #iCONE DA FACE
