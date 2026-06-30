@@ -61,7 +61,7 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
             tela.blit(sombra_opcao, (tx + 3, ty + 3))
             tela.blit(texto, (tx, ty))
 
-def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
+def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar, img_cracha_hud):
     tela.blit(recursos.fundos[config.indice_fundo], (0, 0))
     
     for plat in config.plataformas_flutuantes:
@@ -99,26 +99,42 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
                 tela.blit(recursos.sprite_coracao_vazio, (x_atual, pos_y_coracoes))
                 
     # HUD do Inventário integrado
-    if recursos.sprite_bloco_inventario and len(recursos.sprite_itens) >= 3:
-        posicoes_x = [195, 260, 325]
-        y_pos = 95
-        chaves_itens = ["vida", "energia", "escudo"]
-        COR_TEXTO = (255, 215, 0)
-        COR_SOMBRA = (0, 0, 0)
-        
-        for i in range(3):
-            x_atual = posicoes_x[i]
-            tela.blit(recursos.sprite_bloco_inventario, (x_atual, y_pos))
-            sprite_item = recursos.sprite_itens[i]
-            tela.blit(sprite_item, (x_atual + 10, y_pos + 10))
+        if recursos.sprite_bloco_inventario and len(recursos.sprite_itens) >= 3:
+            posicoes_x = [195, 260, 325, 390] 
+            y_pos = 95
             
-            qtd = config.inventario[chaves_itens[i]]
-            texto_sombra = recursos.fonte_hud_itens.render(str(qtd), True, COR_SOMBRA)
-            texto_qtd = recursos.fonte_hud_itens.render(str(qtd), True, COR_TEXTO)
-            txt_x = x_atual + 35
-            txt_y = y_pos + 38
-            tela.blit(texto_sombra, (txt_x + 2, txt_y + 2))
-            tela.blit(texto_qtd, (txt_x, txt_y))
+            chaves_itens = ["vida", "energia", "escudo", "cracha"] 
+            COR_TEXTO = (255, 215, 0)
+            COR_SOMBRA = (0, 0, 0)
+            
+            # Rodamos o loop 4 vezes agora (de 0 a 3)
+            for i in range(4):
+                x_atual = posicoes_x[i]
+                
+                # Desenha o quadradinho cinza de fundo do slot
+                tela.blit(recursos.sprite_bloco_inventario, (x_atual, y_pos))
+                
+                # Condicional para desenhar o ícone correto
+                if chaves_itens[i] == "cracha":
+                    # Usa a imagem do crachá da HUD que já está em 35x35
+                    # Ajustado +7 para centralizar igual aos outros itens (+10)
+                    tela.blit(img_cracha_hud, (x_atual + 10, y_pos + 10))
+                else:
+                    # Desenha os consumíveis normais (vida, energia, escudo)
+                    sprite_item = recursos.sprite_itens[i]
+                    tela.blit(sprite_item, (x_atual + 10, y_pos + 10))
+                
+                # Puxa a quantidade direto do dicionário do inventário
+                qtd = config.inventario[chaves_itens[i]]
+                
+                # Renderiza o texto com a quantidade atual do item
+                texto_sombra = recursos.fonte_hud_itens.render(str(qtd), True, COR_SOMBRA)
+                texto_qtd = recursos.fonte_hud_itens.render(str(qtd), True, COR_TEXTO)
+                
+                txt_x = x_atual + 35
+                txt_y = y_pos + 38
+                tela.blit(texto_sombra, (txt_x + 2, txt_y + 2))
+                tela.blit(texto_qtd, (txt_x, txt_y))
             
     # HUD do Timer
     if recursos.fonte_pixel_titulo and recursos.fonte_pixel_numero:
