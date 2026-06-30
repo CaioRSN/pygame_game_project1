@@ -202,12 +202,16 @@ while config.rodando:
         pygame.display.flip()
         continue
 
+    # inicia o loop pra detectar ações que fizer no jogo
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             config.rodando = False
                     
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_SPACE and not jogador.pulando and not jogador.em_hit:
+                jogador.pulando = True
+                jogador.velocidade_y = -config.velocidade_pulo
+            if evento.key == pygame.K_UP and not jogador.pulando and not jogador.em_hit:
                 jogador.pulando = True
                 jogador.velocidade_y = -config.velocidade_pulo
                 

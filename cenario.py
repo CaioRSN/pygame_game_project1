@@ -67,7 +67,7 @@ class Cenario:
                 "rect": pygame.Rect(x_item, y_item, 40, 40),
                 "imagem": img_cracha
             })
-
+        # função que atualiza as colisões
     def atualizar_plataformas(self, jogador_rect, jogador_pulando):
         lista_colisoes_ativas = []
         
