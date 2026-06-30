@@ -183,6 +183,7 @@ while config.rodando:
         pygame.display.flip()
         continue
 
+    # inicia o loop pra detectar ações que fizer no jogo
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             config.rodando = False
