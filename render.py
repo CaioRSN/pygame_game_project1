@@ -98,36 +98,35 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar, img_cracha_hud
             else:
                 tela.blit(recursos.sprite_coracao_vazio, (x_atual, pos_y_coracoes))
                 
-    # HUD do Inventário integrado
+# HUD do Inventário integrado 
         if recursos.sprite_bloco_inventario and len(recursos.sprite_itens) >= 3:
-            posicoes_x = [195, 260, 325, 390] 
+            posicoes_x = [195, 260, 325, 390]
             y_pos = 95
-            
-            chaves_itens = ["vida", "energia", "escudo", "cracha"] 
+            chaves_itens = ["vida", "energia", "escudo", "cracha"]
             COR_TEXTO = (255, 215, 0)
             COR_SOMBRA = (0, 0, 0)
             
-            # Rodamos o loop 4 vezes agora (de 0 a 3)
             for i in range(4):
                 x_atual = posicoes_x[i]
                 
-                # Desenha o quadradinho cinza de fundo do slot
-                tela.blit(recursos.sprite_bloco_inventario, (x_atual, y_pos))
-                
-                # Condicional para desenhar o ícone correto
+                # Se for o slot do crachá, cria uma cópia vermelha do quadradinho cinza
                 if chaves_itens[i] == "cracha":
-                    # Usa a imagem do crachá da HUD que já está em 35x35
-                    # Ajustado +7 para centralizar igual aos outros itens (+10)
+                    bloco_vermelho = recursos.sprite_bloco_inventario.copy()
+                    bloco_vermelho.fill((255, 80, 80, 255), special_flags=pygame.BLEND_RGBA_MULT)
+                    tela.blit(bloco_vermelho, (x_atual, y_pos))
+                    
+                    # Desenha o ícone do crachá centralizado
                     tela.blit(img_cracha_hud, (x_atual + 10, y_pos + 10))
                 else:
-                    # Desenha os consumíveis normais (vida, energia, escudo)
+                    # Desenha o quadradinho cinza normal para vida, energia e escudo
+                    tela.blit(recursos.sprite_bloco_inventario, (x_atual, y_pos))
+                    
+                    # Desenha os consumíveis normais
                     sprite_item = recursos.sprite_itens[i]
                     tela.blit(sprite_item, (x_atual + 10, y_pos + 10))
                 
-                # Puxa a quantidade direto do dicionário do inventário
+                # Renderização da quantidade de itens (permanece igual para todos)
                 qtd = config.inventario[chaves_itens[i]]
-                
-                # Renderiza o texto com a quantidade atual do item
                 texto_sombra = recursos.fonte_hud_itens.render(str(qtd), True, COR_SOMBRA)
                 texto_qtd = recursos.fonte_hud_itens.render(str(qtd), True, COR_TEXTO)
                 
