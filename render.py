@@ -5,8 +5,9 @@ import math
 
 def desenhar_menu(tela, indice_selecionado, mostrar_controles):
     tempo = pygame.time.get_ticks()
-    largura_original = tela.get_width()
-    altura_original = tela.get_height()
+    # Como a tela agora é SEMPRE a superfície virtual (1920x1080), as dimensões são fixas
+    largura_original = 1920
+    altura_original = 1080
     
     fator_zoom = 1.03 + 0.03 * math.sin(tempo * 0.001)
     nova_largura = int(largura_original * fator_zoom)
@@ -23,17 +24,19 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
         overlay = pygame.Surface((1000, 470))
         overlay.set_alpha(210)
         overlay.fill((0, 0, 0))
-        tela.blit(overlay, (largura_original // 2 - 500, 300))
+        # Posição centralizada corrigida para 1920x1080
+        tela.blit(overlay, ((largura_original - 1000) // 2, 300))
         
         controles = [
             "CONTROLES",
             "",
-            "→/← A/D: Mover Personagem",
-            "↑ / Espaço: Pular",
-            "k: Atirar Projetil",
+            "A / D: Mover Personagem",
+            "Seta Cima / Espaco: Pular",
+            "K: Atirar Projetil",
             "T: Interagir com NPCs",
-            "Esc: Voltar"
+            "Esc / Espaco: Voltar"
         ]
+        
         for i, linha in enumerate(controles):
             texto = recursos.fonte_pixel_titulo.render(linha, True, (255, 255, 255))
             tx = largura_original // 2 - texto.get_width() // 2
@@ -45,7 +48,8 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
         opcoes = ["INICIAR JOGO", "CONTROLES", "SAIR"]
         for i, opcao in enumerate(opcoes):
             tx = largura_original // 2 - 150
-            ty = 850 + i * 70
+            ty = 800 + i * 70  # Ajustado ligeiramente para encaixar no layout 1080p
+            
             if i == indice_selecionado:
                 tx += 30
                 valor_pulsante = int(197 + 58 * math.sin(tempo * 0.005))
@@ -61,16 +65,16 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
             tela.blit(sombra_opcao, (tx + 3, ty + 3))
             tela.blit(texto, (tx, ty))
 
-def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
+def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar, img_cracha_hud):
+    # Renderiza o fundo na proporção fixa nativa de 1920x1080
     tela.blit(recursos.fundos[config.indice_fundo], (0, 0))
     
+    # Desenha as plataformas flutuantes
     for plat in config.plataformas_flutuantes:
-        if not plat["invisivel"]:  # Verifica o estado dinâmico criado no cenario.py
+        if not plat["invisivel"]: 
             rect_colisao = plat["rect"]
             indice_sprite = plat["sprite_id"]
-            
             sprite_original = recursos.sprites_plataformas[indice_sprite]
-            
             sprite_esticado = pygame.transform.scale(sprite_original, (rect_colisao.width, rect_colisao.height))
             tela.blit(sprite_esticado, (rect_colisao.x, rect_colisao.y))
             
@@ -100,18 +104,25 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
                 
     # HUD do Inventário integrado
     if recursos.sprite_bloco_inventario and len(recursos.sprite_itens) >= 3:
-        posicoes_x = [195, 260, 325]
+        posicoes_x = [195, 260, 325, 390]
         y_pos = 95
-        chaves_itens = ["vida", "energia", "escudo"]
+        chaves_itens = ["vida", "energia", "escudo", "cracha"]
         COR_TEXTO = (255, 215, 0)
         COR_SOMBRA = (0, 0, 0)
         
-        for i in range(3):
+        for i in range(4):
             x_atual = posicoes_x[i]
-            tela.blit(recursos.sprite_bloco_inventario, (x_atual, y_pos))
-            sprite_item = recursos.sprite_itens[i]
-            tela.blit(sprite_item, (x_atual + 10, y_pos + 10))
             
+            if chaves_itens[i] == "cracha":
+                bloco_vermelho = recursos.sprite_bloco_inventario.copy()
+                bloco_vermelho.fill((255, 80, 80, 255), special_flags=pygame.BLEND_RGBA_MULT)
+                tela.blit(bloco_vermelho, (x_atual, y_pos))
+                tela.blit(img_cracha_hud, (x_atual + 10, y_pos + 10))
+            else:
+                tela.blit(recursos.sprite_bloco_inventario, (x_atual, y_pos))
+                sprite_item = recursos.sprite_itens[i]
+                tela.blit(sprite_item, (x_atual + 10, y_pos + 10))
+                
             qtd = config.inventario[chaves_itens[i]]
             texto_sombra = recursos.fonte_hud_itens.render(str(qtd), True, COR_SOMBRA)
             texto_qtd = recursos.fonte_hud_itens.render(str(qtd), True, COR_TEXTO)
@@ -174,8 +185,8 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
             img_tiro = pygame.transform.flip(img_tiro, True, False)
         tela.blit(img_tiro, (tiro.rect.x, tiro.rect.y))
         
-    # DESENHAR NPC E BALÃO DE FALA
-    if recursos.sprite_npc1 and config.indice_fundo == 0:
+    # NPC e Balão de fala
+    if recursos.sprite_npc1 and config.fase_atual == 0:
         tela.blit(recursos.sprite_npc1, (rect_npc.x, rect_npc.y))
         
         if config.perto_do_npc and not config.mostrar_balao:
@@ -199,19 +210,19 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
             COR_BORDA = (20, 20, 20)
             COR_SOMBRA_B = (140, 140, 130)
             COR_TEXTO = (20, 20, 20)
-            COR_SOMBRA_T = (180, 180, 180)
+            COR_SOMBRAT = (180, 180, 180)
             COR_ETIQUETA = (255, 215, 0)
             
             texto_fala = recursos.fonte_dialogo.render(frase_atual, True, COR_TEXTO)
-            sombra_fala = recursos.fonte_dialogo.render(frase_atual, True, COR_SOMBRA_T)
+            sombra_fala = recursos.fonte_dialogo.render(frase_atual, True, COR_SOMBRAT)
             texto_nome = recursos.fonte_dialogo.render(NOME_NPC, True, COR_TEXTO)
-            sombra_nome = recursos.fonte_dialogo.render(NOME_NPC, True, COR_SOMBRA_T)
+            sombra_nome = recursos.fonte_dialogo.render(NOME_NPC, True, COR_SOMBRAT)
             
             largura_texto, altura_texto = texto_fala.get_size()
             largura_nome, altura_nome = texto_nome.get_size()
+            
             margem_x = 20
             margem_y = 15
-            
             largura_balao = largura_texto + (margem_x * 2)
             altura_balao = altura_texto + (margem_y * 2)
             balao_x = rect_npc.x + (rect_npc.width // 2) - (largura_balao // 2)
@@ -241,13 +252,15 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar):
             tela.blit(sombra_fala, (txt_x + 1, txt_y + 1))
             tela.blit(texto_fala, (txt_x, txt_y))
             
-    # Desenha o chao
+    # Desenha o chão (preenchendo a largura total da superfície de 1920)
     largura_bloco_chao = 100
     sprite_chao_ajustado = pygame.transform.scale(recursos.sprite_chao, (largura_bloco_chao + 1, config.chao.height))
-    for x_pos in range(0, config.tamanho_tela[0], largura_bloco_chao):
+    for x_pos in range(0, 1920, largura_bloco_chao):
         tela.blit(sprite_chao_ajustado, (x_pos, config.chao.y))
         
-    # Cursor para debug
+    # Cursor para debug baseado nas coordenadas fixas da tela virtual
+    # Nota: se as coordenadas do mouse estiverem desalinhadas com o redimensionamento da janela real,
+    # será necessário mapear o mouse proporcionalmente. Mas mantivemos sua lógica original estável.
     mx, my = pygame.mouse.get_pos()
     texto_debug = fonte.render(f"X: {mx}, Y: {my}", True, (255, 255, 255))
     tela.blit(texto_debug, (mx + 10, my - 20))
