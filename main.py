@@ -398,6 +398,14 @@ while config.rodando:
     if config.contador_frames_tempo >= 60:
         config.tempo_segundos += 1
         config.contador_frames_tempo = 0
+        
+         
+    config.atualizar_movimento_plataformas(2, 3, jogador, afastamento_maximo = 90, velocidade = 2)
+    config.atualizar_movimento_plataformas(3, 2, jogador, afastamento_maximo = 90, velocidade = 2.2)
+    config.atualizar_movimento_plataformas(4, 2, jogador, afastamento_maximo = 150, velocidade = 3)
+    config.atualizar_movimento_vertical_plataformas(5, 3, jogador, afastamento_maximo = 90, velocidade = 2)
+    config.atualizar_movimento_vertical_plataformas(6, 2, jogador, afastamento_maximo = 90, velocidade = 2)
+    config.atualizar_movimento_plataformas(6, 3, jogador, afastamento_maximo = 70, velocidade = 2)
 
     # DESENHO DA TELA E ITENS 
     render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
