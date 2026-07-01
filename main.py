@@ -48,7 +48,7 @@ except Exception as e:
     img_cracha.fill((255, 215, 0))
     img_cracha_hud = pygame.transform.scale(img_cracha, (35, 35))
 
-# Posicionamento corrigido do NPC
+# Posicionamento do NPC
 rect_npc1 = pygame.Rect(450, config.chao.y - 128, 64, 64)
 
 config.ultimo_tempo = pygame.time.get_ticks()
@@ -96,7 +96,6 @@ def reiniciar_jogo():
     config.tempo_energia_restante = 0
     config.cooldown_tiro_reduzido = False
     jogador.velocidade = 5
-    
     # Limpa projéteis e drops do chão
     config.projeteis.clear()
     config.itens_no_chao.clear()
@@ -146,6 +145,10 @@ def usar_escudo():
 
 efeitos_ativos = []  # guarda os efeitos visuais que estão rodando agora
 
+pause_selecionado = 0
+jogo_pausado = False
+mostrar_controles_pause = False
+
 menu_selecionado = 0
 mostrar_controles = False
 
@@ -172,6 +175,9 @@ while config.rodando:
         config.cooldown_tiro_reduzido = False
         jogador.velocidade = 5
 
+    # =========================================================================
+    # ESTADO 1: MENU INICIAL
+    # =========================================================================
     if config.no_menu:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -179,6 +185,7 @@ while config.rodando:
             elif evento.type == pygame.VIDEORESIZE:
                 largura_janela_real, altura_janela_real = evento.w, evento.h
                 tela_real = pygame.display.set_mode((largura_janela_real, altura_janela_real), pygame.RESIZABLE)
+                
             if evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_ESCAPE:
                     mostrar_controles = False
@@ -205,6 +212,9 @@ while config.rodando:
         pygame.display.flip()
         continue
 
+    # =========================================================================
+    # ESTADO 2: GAME OVER
+    # =========================================================================
     if config.game_over:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -226,35 +236,92 @@ while config.rodando:
         pygame.display.flip()
         continue
 
+    # =========================================================================
+    # ESTADO 3: EVENTOS DO JOGO (Normal e Pausado)
+    # =========================================================================
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             config.rodando = False
         elif evento.type == pygame.VIDEORESIZE:
             largura_janela_real, altura_janela_real = evento.w, evento.h
             tela_real = pygame.display.set_mode((largura_janela_real, altura_janela_real), pygame.RESIZABLE)
-        if evento.type == pygame.KEYDOWN:
-            if evento.key == pygame.K_SPACE and not jogador.pulando and not jogador.em_hit:
-                jogador.pulando = True
-                jogador.velocidade_y = -config.velocidade_pulo
-            if evento.key == pygame.K_UP and not jogador.pulando and not jogador.em_hit:
-                jogador.pulando = True
-                jogador.velocidade_y = -config.velocidade_pulo
-            if evento.key == pygame.K_t:
-                if config.perto_do_npc and config.fase_atual == 0:
-                    if not config.mostrar_balao:
-                        config.mostrar_balao = True
-                        config.indice_dialogo = 0
-                    else:
-                        config.indice_dialogo += 1
-                        if config.indice_dialogo >= len(config.dialogo_npc1):
-                            config.mostrar_balao = False
-            if evento.key == pygame.K_1:
-                usar_vida()
-            if evento.key == pygame.K_2:
-                usar_energia()
-            if evento.key == pygame.K_3:
-                usar_escudo()
 
+        if evento.type == pygame.KEYDOWN:
+            # --- SE O JOGO ESTIVER PAUSADO ---
+            if jogo_pausado:
+                if mostrar_controles_pause:
+                    if evento.key in (pygame.K_ESCAPE, pygame.K_SPACE, pygame.K_RETURN):
+                        mostrar_controles_pause = False
+                else:
+                    if evento.key == pygame.K_ESCAPE:
+                        jogo_pausado = False
+                    elif evento.key in (pygame.K_DOWN, pygame.K_s):
+                        pause_selecionado = (pause_selecionado + 1) % 4
+                    elif evento.key in (pygame.K_UP, pygame.K_w):
+                        pause_selecionado = (pause_selecionado - 1) % 4
+                    elif evento.key in (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_SPACE):
+                        if pause_selecionado == 0:
+                            jogo_pausado = False
+                        elif pause_selecionado == 1:
+                            config.carregar_fase(config.fase_atual)
+                            config.projeteis.clear()
+                            config.itens_no_chao.clear()
+                            jogador.rect.x = config.POS_X_INICIAL
+                            jogador.rect.y = config.POS_Y_INICIAL
+                            jogo_pausado = False
+                        elif pause_selecionado == 2:
+                            mostrar_controles_pause = True
+                        elif pause_selecionado == 3:
+                            config.rodando = False
+            # --- SE O JOGO ESTIVER RODANDO NORMALMENTE ---
+            else:
+                if evento.key == pygame.K_ESCAPE:
+                    jogo_pausado = True
+                    pause_selecionado = 0
+                    mostrar_controles_pause = False
+                elif evento.key == pygame.K_SPACE and not jogador.pulando and not jogador.em_hit:
+                    jogador.pulando = True
+                    jogador.velocidade_y = -config.velocidade_pulo
+                elif evento.key == pygame.K_UP and not jogador.pulando and not jogador.em_hit:
+                    jogador.pulando = True
+                    jogador.velocidade_y = -config.velocidade_pulo
+                elif evento.key == pygame.K_k:
+                    config.atacando
+                elif evento.key == pygame.K_1:
+                    usar_vida()
+                elif evento.key == pygame.K_2:
+                    usar_energia()
+                elif evento.key == pygame.K_3:
+                    usar_escudo()
+                elif evento.key == pygame.K_t:
+                    if config.perto_do_npc and config.fase_atual == 0:
+                        if not config.mostrar_balao:
+                            config.mostrar_balao = True
+                            config.indice_dialogo = 0
+                        else:
+                            config.indice_dialogo += 1
+                            if config.indice_dialogo >= len(config.dialogo_npc1):
+                                config.mostrar_balao = False
+
+    # =========================================================================
+    # ESTADO 4: A TRAVA DO PAUSE
+    # =========================================================================
+    if jogo_pausado:
+        render.desenhar_pause(superficie_virtual, pause_selecionado, mostrar_controles_pause)
+        
+        proporcao_janela = largura_janela_real / altura_janela_real
+        proporcao_virtual = LARGURA_VIRTUAL / ALTURA_VIRTUAL
+
+        tela_redimensionada = pygame.transform.scale(superficie_virtual, (largura_janela_real, altura_janela_real))
+        tela_real.fill((0, 0, 0))
+        tela_real.blit(tela_redimensionada, (0, 0))
+
+        pygame.display.flip()
+        continue
+
+    # =========================================================================
+    # LÓGICA DE GAMEPLAY E FÍSICA (SÓ RODA SE NÃO ESTIVER PAUSADO)
+    # =========================================================================
     area_conversa = rect_npc1.inflate(100, 50)
     if jogador.rect.colliderect(area_conversa):
         config.perto_do_npc = True
@@ -272,7 +339,6 @@ while config.rodando:
         tiro.atualizar()
         if (tiro.rect.x > 1920 or tiro.rect.x < 0) and tiro in config.projeteis:
             config.projeteis.remove(tiro)
-
 
     for pinguim_atual in config.inimigos_cenario[:]:
         if pinguim_atual.vivo:
@@ -302,7 +368,6 @@ while config.rodando:
                         break
 
     if jogador.rect.x > 1920 or jogador.rect.x < 0:
-        # Define se existe uma próxima fase ou uma fase anterior
         pode_avancar = (jogador.rect.x > 1920) and ((config.fase_atual + 1) in config.fases)
         pode_voltar = (jogador.rect.x < 0) and ((config.fase_atual - 1) in config.fases)
 
@@ -311,15 +376,14 @@ while config.rodando:
             config.carregar_fase(config.fase_atual)
             config.projeteis.clear()
             config.itens_no_chao.clear()
-            jogador.rect.x = 10  # Brota no início da nova fase
+            jogador.rect.x = 10
         elif pode_voltar:
             config.fase_atual -= 1
             config.carregar_fase(config.fase_atual)
             config.projeteis.clear()
             config.itens_no_chao.clear()
-            jogador.rect.x = 1910  # Brota no final da fase anterior
+            jogador.rect.x = 1910
         else:
-            # Se NÃO houver outra fase, ele bate na parede invisível e não passa
             if jogador.rect.x > 1920:
                 jogador.rect.right = 1920
             elif jogador.rect.x < 0:
@@ -335,7 +399,9 @@ while config.rodando:
         config.tempo_segundos += 1
         config.contador_frames_tempo = 0
 
-    # Desenha tudo na superfície virtual estática
+    # =========================================================================
+    # DESENHO DA TELA E ITENS (O QUE ESTAVA FALTANDO!)
+    # =========================================================================
     render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
 
     # EFEITOS DOS PODERES — adiciona aqui
@@ -352,19 +418,38 @@ while config.rodando:
 
     for item in config.itens_no_chao[:]:
         if isinstance(item, ItemColetavel):
-            superficie_virtual.blit(item.image, item.rect)
+            rect_flutuante = item.rect.copy()
+            rect_flutuante.y += int(deslocamento_y)
+            superficie_virtual.blit(item.image, rect_flutuante)
             if jogador.rect.colliderect(item.rect):
                 config.inventario[item.tipo] += 1
                 config.itens_no_chao.remove(item)
         else:
-            superficie_virtual.blit(item["imagem"], item["rect"])
+            rect_flutuante = item["rect"].copy()
+            rect_flutuante.y += int(deslocamento_y)
+            superficie_virtual.blit(item["imagem"], rect_flutuante)
             if jogador.rect.colliderect(item["rect"]):
                 config.inventario["cracha"] += 1
                 config.itens_no_chao.remove(item)
 
-    # Adapta a superfície virtual para o tamanho atual da janela real do monitor
+    proporcao_janela = largura_janela_real / altura_janela_real
+    proporcao_virtual = LARGURA_VIRTUAL / ALTURA_VIRTUAL
+
+    if proporcao_janela > proporcao_virtual:
+        nova_altura = altura_janela_real
+        nova_largura = int(nova_altura * proporcao_virtual)
+    else:
+        nova_largura = largura_janela_real
+        nova_altura = int(nova_largura / proporcao_virtual)
+
+    pos_x = (largura_janela_real - nova_largura) // 2
+    pos_y = (altura_janela_real - nova_altura) // 2
+
     tela_redimensionada = pygame.transform.scale(superficie_virtual, (largura_janela_real, altura_janela_real))
+    tela_real.fill((0, 0, 0))
     tela_real.blit(tela_redimensionada, (0, 0))
+
+    
     pygame.display.flip()
 
 pygame.quit()
