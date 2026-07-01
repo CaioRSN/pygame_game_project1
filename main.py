@@ -126,21 +126,21 @@ def usar_vida():
 def usar_energia():
     if config.inventario["energia"] > 0:
         config.inventario["energia"] -= 1
-        config.tempo_energia_restante = 600
+        config.tempo_energia_restante = 200
         config.cooldown_tiro_reduzido = True
         jogador.velocidade = 10
         efeitos_ativos.append({
             "imagem": recursos.sprite_efeito_energia,
-            "duracao": 600
+            "duracao": 200
         })
 
 def usar_escudo():
     if config.inventario["escudo"] > 0:
         config.inventario["escudo"] -= 1
-        config.tempo_escudo_restante = 600
+        config.tempo_escudo_restante = 100
         efeitos_ativos.append({
             "imagem": recursos.sprite_efeito_escudo,
-            "duracao": 600
+            "duracao": 70
         })
 
 efeitos_ativos = []  # guarda os efeitos visuais que estão rodando agora
@@ -356,7 +356,7 @@ while config.rodando:
                         pinguim_atual.vivo = False
                         config.score += 100
                         config.tempo_descanso_inimigo = 0
-                        if random.random() <= 0.5:
+                        if random.random() <= 1:
                             tipo_sorteado = random.choice(['vida', 'energia', 'escudo'])
                             novo_item = ItemColetavel(tipo_sorteado, pinguim_atual.rect.centerx, pinguim_atual.rect.centery)
                             config.itens_no_chao.append(novo_item)
@@ -399,9 +399,7 @@ while config.rodando:
         config.tempo_segundos += 1
         config.contador_frames_tempo = 0
 
-    # =========================================================================
-    # DESENHO DA TELA E ITENS (O QUE ESTAVA FALTANDO!)
-    # =========================================================================
+    # DESENHO DA TELA E ITENS 
     render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
 
     # EFEITOS DOS PODERES 
@@ -413,12 +411,12 @@ while config.rodando:
         if efeito["duracao"] <= 0:
             efeitos_ativos.remove(efeito)
 
-    for item in config.itens_no_chao[:]:
-        ...
+    deslocamento_y = math.sin(tempo_atual * 0.005) * 8
 
     for item in config.itens_no_chao[:]:
         if isinstance(item, ItemColetavel):
             rect_flutuante = item.rect.copy()
+            rect_flutuante.y += int(deslocamento_y)
           
             superficie_virtual.blit(item.image, rect_flutuante)
             if jogador.rect.colliderect(item.rect):
@@ -426,11 +424,13 @@ while config.rodando:
                 config.itens_no_chao.remove(item)
         else:
             rect_flutuante = item["rect"].copy()
+            rect_flutuante.y += int(deslocamento_y)
 
             superficie_virtual.blit(item["imagem"], rect_flutuante)
             if jogador.rect.colliderect(item["rect"]):
                 config.inventario["cracha"] += 1
                 config.itens_no_chao.remove(item)
+
 
     proporcao_janela = largura_janela_real / altura_janela_real
     proporcao_virtual = LARGURA_VIRTUAL / ALTURA_VIRTUAL
