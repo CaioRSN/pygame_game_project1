@@ -42,7 +42,7 @@ item_vida_img = None
 sprite_efeito_vida = None
 sprite_efeito_energia = None    
 sprite_efeito_escudo = None
-
+paginas_historia = []
 
 def carregar_e_escalar(caminho, altura):
     img = pygame.image.load(caminho).convert_alpha()
@@ -57,7 +57,7 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     global sprite_npc1, sprite_balao_fala
     global fonte_pixel_titulo, fonte_pixel_numero, fonte_game_over, fonte_hud_itens, fonte_dialogo
     global sprites_blocos, sprites_plataformas, sprite_chao
-    global sprite_tela_game_over, sprite_fundo_menu, sprite_itens
+    global paginas_historia, sprite_tela_game_over, sprite_fundo_menu, sprite_itens
     global item_energia_img, item_escudo_img, item_vida_img
     global sprite_efeito_vida, sprite_efeito_energia, sprite_efeito_escudo
 
@@ -80,6 +80,16 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario5.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario6.png"), TAMANHO_TELA),
     ]
+
+    paginas_historia = [
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/historia1.png"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/historia2.png"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/historia3.png"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/historia4.png"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/historia5.png"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/historia6.png"), TAMANHO_TELA),
+    ]
+
     #CHAO
     sprite_chao = pygame.image.load("imagens_e_texturas/chao-tijolinho.jpg").convert_alpha()
     #BLOCOS

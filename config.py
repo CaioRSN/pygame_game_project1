@@ -164,7 +164,7 @@ inimigos_cenario = fases[fase_atual].inimigos
 plataformas = [p["rect"] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
 
 pulando = False
-velocidade_pulo = 18
+velocidade_pulo = 20
 gravidade = 1
 velocidade_y = 0
 atacando = False
