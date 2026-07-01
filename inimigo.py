@@ -51,7 +51,7 @@ class Inimigo(pygame.sprite.Sprite):
             self.direcao = "direita" if jogador_rect.x > self.rect.x else "esquerda"
             
         # MODO PERSEGUIÇÃO: Se não estiver descansando e estiver no raio de visão, corre atrás
-        elif distancia_x < 600 and distancia_y < 200:
+        elif distancia_x < 950 and distancia_y < 200:
             if (jogador_rect.x - self.rect.x) > 15:
                 self.rect.x += self.velocidade
                 self.direcao = "direita"

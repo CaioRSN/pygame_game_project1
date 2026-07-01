@@ -8,7 +8,7 @@ ALTURA_PERSONAGEM = 125
 POS_X_INICIAL = 100
 POS_Y_INICIAL = 500
 direcao = "direita"
-velocidade_jogador = 5  # Velocidade inicial atualizada
+velocidade_jogador = 100  # Velocidade inicial atualizada
 
 chao = pygame.Rect(0, 960, 1980, 120)
 
@@ -164,7 +164,7 @@ inimigos_cenario = fases[fase_atual].inimigos
 plataformas = [p["rect"] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
 
 pulando = False
-velocidade_pulo = 18
+velocidade_pulo = 20
 gravidade = 1
 velocidade_y = 0
 atacando = False
