@@ -118,6 +118,10 @@ def usar_vida():
         if jogador.vida_atual < jogador.vida_maxima:
             config.inventario["vida"] -= 1
             jogador.vida_atual += 1
+            efeitos_ativos.append({
+                "imagem": recursos.sprite_efeito_vida,
+                "duracao": 60  # aparece por 1 segundo (60 frames)
+            })
 
 def usar_energia():
     if config.inventario["energia"] > 0:
@@ -125,11 +129,21 @@ def usar_energia():
         config.tempo_energia_restante = 600
         config.cooldown_tiro_reduzido = True
         jogador.velocidade = 10
+        efeitos_ativos.append({
+            "imagem": recursos.sprite_efeito_energia,
+            "duracao": 600
+        })
 
 def usar_escudo():
     if config.inventario["escudo"] > 0:
         config.inventario["escudo"] -= 1
         config.tempo_escudo_restante = 600
+        efeitos_ativos.append({
+            "imagem": recursos.sprite_efeito_escudo,
+            "duracao": 600
+        })
+
+efeitos_ativos = []  # guarda os efeitos visuais que estão rodando agora
 
 pause_selecionado = 0
 jogo_pausado = False
@@ -194,6 +208,7 @@ while config.rodando:
         render.desenhar_menu(superficie_virtual, menu_selecionado, mostrar_controles)
         tela_redimensionada = pygame.transform.scale(superficie_virtual, (largura_janela_real, altura_janela_real))
         tela_real.blit(tela_redimensionada, (0, 0))
+
         pygame.display.flip()
         continue
 
@@ -341,7 +356,7 @@ while config.rodando:
                         pinguim_atual.vivo = False
                         config.score += 100
                         config.tempo_descanso_inimigo = 0
-                        if random.random() <= 0.6:
+                        if random.random() <= 0.5:
                             tipo_sorteado = random.choice(['vida', 'energia', 'escudo'])
                             novo_item = ItemColetavel(tipo_sorteado, pinguim_atual.rect.centerx, pinguim_atual.rect.centery)
                             config.itens_no_chao.append(novo_item)
@@ -389,7 +404,17 @@ while config.rodando:
     # =========================================================================
     render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
 
-    deslocamento_y = math.sin(tempo_atual * 0.005) * 8
+    # EFEITOS DOS PODERES — adiciona aqui
+    for efeito in efeitos_ativos[:]:
+        x = jogador.rect.centerx - efeito["imagem"].get_width() // 2
+        y = jogador.rect.top - efeito["imagem"].get_height() + 160
+        superficie_virtual.blit(efeito["imagem"], (x, y))
+        efeito["duracao"] -= 1
+        if efeito["duracao"] <= 0:
+            efeitos_ativos.remove(efeito)
+
+    for item in config.itens_no_chao[:]:
+        ...
 
     for item in config.itens_no_chao[:]:
         if isinstance(item, ItemColetavel):
