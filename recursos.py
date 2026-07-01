@@ -66,11 +66,13 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
      )
     # --- CARREGAMENTO DOS FUNDOS ---
     fundos = [
-        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario1.jpg"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario0.jpg"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario1.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario2.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario3.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario4.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario5.png"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario6.png"), TAMANHO_TELA),
     ]
     #CHAO
     sprite_chao = pygame.image.load("imagens_e_texturas/chao-tijolinho.jpg").convert_alpha()
@@ -163,8 +165,11 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
    ]
     sprites_pinguin_andando = [carregar_e_escalar(arq, ALTURA_PERSONAGEM) for arq in arquivo_pinguin_andando]
     arquivo_pinguin_atacando = [
-        "png dos sprites/pinguin attaq 1.png",
-        "png dos sprites/pinguin attaq 2.png"
+        "png dos sprites/pinguim attaq 1.png",
+        "png dos sprites/pinguim attaq 2.png",
+        "png dos sprites/pinguim attaq 3.png",
+        "png dos sprites/pinguim attaq 4.png",
+        "png dos sprites/pinguim attaq 5.png"
     ]
     sprites_pinguin_atacando = [carregar_e_escalar(arq, ALTURA_PERSONAGEM) for arq in arquivo_pinguin_atacando]
     #iCONE DA FACE

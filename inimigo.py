@@ -33,18 +33,24 @@ class Inimigo(pygame.sprite.Sprite):
         self.movendo = False
         self.atacando = False
 
-        # Se tiver em cooldown após bater no player
+        # Diminui o tempo de descanso a cada frame
         if config.tempo_descanso_inimigo > 0:
             config.tempo_descanso_inimigo -= 1
-            distancia_x, distancia_y = 9999, 9999
-        else:
-            distancia_x = abs(jogador_rect.x - self.rect.x)
-            distancia_y = abs(jogador_rect.y - self.rect.y)
 
-        # IA do inimigo: Decide se ataca ou se persegue
+        # Sempre calcula a distância real para a animação não bugar
+        distancia_x = abs(jogador_rect.x - self.rect.x)
+        distancia_y = abs(jogador_rect.y - self.rect.y)
+
+        # GATILHO DE ATAQUE: Se estiver perto, ataca
         if distancia_x < 85 and distancia_y < 60:
             self.atacando = True
             self.direcao = "direita" if jogador_rect.x > self.rect.x else "esquerda"
+            
+        # MODO DESCANSO: Se o jogador se afastar enquanto ele ainda está em cooldown, ele fica parado olhando
+        elif config.tempo_descanso_inimigo > 0:
+            self.direcao = "direita" if jogador_rect.x > self.rect.x else "esquerda"
+            
+        # MODO PERSEGUIÇÃO: Se não estiver descansando e estiver no raio de visão, corre atrás
         elif distancia_x < 600 and distancia_y < 200:
             if (jogador_rect.x - self.rect.x) > 15:
                 self.rect.x += self.velocidade
@@ -59,7 +65,7 @@ class Inimigo(pygame.sprite.Sprite):
         if self.atacando:
             self.estado = "atacando"
             lista_animacao = recursos.sprites_pinguin_atacando
-            velocidade_anim = 0.15
+            velocidade_anim = 0.2
         elif self.movendo:
             self.estado = "andando"
             lista_animacao = recursos.sprites_pinguin_andando

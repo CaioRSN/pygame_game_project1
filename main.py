@@ -258,6 +258,7 @@ while config.rodando:
         if (tiro.rect.x > 1920 or tiro.rect.x < 0) and tiro in config.projeteis:
             config.projeteis.remove(tiro)
 
+
     for pinguim_atual in config.inimigos_cenario[:]:
         if pinguim_atual.vivo:
             pinguim_atual.atualizar_ia(jogador.rect)
