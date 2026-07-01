@@ -70,18 +70,13 @@ class Cenario:
         lista_colisoes_ativas = []
         
         for p in self.plataformas_flutuantes:
-            if "desenhar" not in p:
-                p["desenhar"] = True
-                
             if p["invisivel"]:
                 p["tempo_invisivel"] += 1
-                p["desenhar"] = False
                 
                 if p["tempo_invisivel"] >= 120:
                     p["invisivel"] = False
                     p["tempo_invisivel"] = 0
                     p["tempo_parado"] = 0
-                    p["desenhar"] = True
                     p["rect"] = p["original_rect"].copy() # Restaura a colisão
                     
             else:
@@ -91,18 +86,8 @@ class Cenario:
                 # Se o jogador colidir com o topo e não estiver subindo/pulando
                 if jogador_rect.colliderect(area_pe) and not jogador_pulando:
                     p["tempo_parado"] += 1
-                    
-                    # ---- Lógica para ficar piscando ----
-                    if p["tempo_parado"] >= 90:
-                        if (p["tempo_parado"] // 4) % 2 == 0:
-                            p["desenhar"] = True
-                        else:
-                            p["desenhar"] = False
-                            
-                    # ---- Lógica de sumir ----
                     if p["tempo_parado"] >= 120: 
                         p["invisivel"] = True
-                        p["desenhar"] = False
                         p["tempo_invisivel"] = 0
                         # Remove a colisão temporariamente movendo o rect para fora do mapa
                         p["rect"] = pygame.Rect(-1000, -1000, 0, 0)
@@ -110,8 +95,6 @@ class Cenario:
                     # Se o jogador sair da plataforma, o contador vai diminuindo gradativamente
                     if p["tempo_parado"] > 0:
                         p["tempo_parado"] -= 1
-                        if p["tempo_parado"] < 90:
-                            p["desenhar"] = True
             
             # Apenas plataformas visíveis mantêm colisão ativa no jogo
             if not p["invisivel"]:
