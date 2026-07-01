@@ -39,6 +39,10 @@ sprite_fundo_menu = None
 item_energia_img = None
 item_escudo_img = None
 item_vida_img = None
+sprite_efeito_vida = None
+sprite_efeito_energia = None    
+sprite_efeito_escudo = None
+
 
 def carregar_e_escalar(caminho, altura):
     img = pygame.image.load(caminho).convert_alpha()
@@ -55,6 +59,8 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     global sprites_blocos, sprites_plataformas, sprite_chao
     global sprite_tela_game_over, sprite_fundo_menu, sprite_itens
     global item_energia_img, item_escudo_img, item_vida_img
+    global sprite_efeito_vida, sprite_efeito_energia, sprite_efeito_escudo
+
    
     sprite_fundo_menu = pygame.transform.scale(
         pygame.image.load("imagens_e_texturas/tela_inicial.png").convert_alpha(),
@@ -205,6 +211,17 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     sprite_balao_fala = pygame.image.load("png dos sprites/balao_fala.png").convert_alpha()
     #tamanho do balão
     sprite_balao_fala = pygame.transform.scale(sprite_balao_fala, (300, 100))
+
+    sprite_efeito_vida = pygame.transform.scale(
+        pygame.image.load("png dos sprites/sprite poder vida.png").convert_alpha(), (150, 150)  
+    )
+    sprite_efeito_energia = pygame.transform.scale(
+        pygame.image.load("png dos sprites/sprite poder velocidade.png").convert_alpha(), (150, 150)
+    )
+    sprite_efeito_escudo = pygame.transform.scale(
+        pygame.image.load("png dos sprites/sprite poder escudo.png").convert_alpha(), (150, 150)
+    )
+
     return largura_final_base
 # Configurações da tela e cores
 tamanho_tela = (1920, 1080)
@@ -239,7 +256,7 @@ fases = {
             "pos_inicial": (1200, 835),
             "vida": 3,
             "vivo": True
-        }
+        }   
     },
     1: {
         "fundo_id": 1,
