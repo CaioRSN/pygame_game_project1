@@ -5,7 +5,7 @@ import math
 
 def desenhar_menu(tela, indice_selecionado, mostrar_controles):
     tempo = pygame.time.get_ticks()
-    # Como a tela agora é SEMPRE a superfície virtual (1920x1080), as dimensões são fixas
+  
     largura_original = 1920
     altura_original = 1080
     
@@ -21,10 +21,10 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
     tela.blit(fundo_com_zoom, (fundo_x, fundo_y))
     
     if mostrar_controles:
-        overlay = pygame.Surface((1000, 470))
+        overlay = pygame.Surface((1000, 570))
         overlay.set_alpha(210)
         overlay.fill((0, 0, 0))
-        # Posição centralizada corrigida para 1920x1080
+       
         tela.blit(overlay, ((largura_original - 1000) // 2, 300))
         
         controles = [
@@ -33,8 +33,11 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
             "A / D: Mover Personagem",
             "Seta Cima / Espaco: Pular",
             "K: Atirar Projetil",
+            "1/2/3: Usar coletaveis",
             "T: Interagir com NPCs",
-            "Esc / Espaco: Voltar"
+            "Esc: Pausar",
+            "",
+            "(Espaco para voltar)"
         ]
         
         for i, linha in enumerate(controles):
@@ -48,7 +51,7 @@ def desenhar_menu(tela, indice_selecionado, mostrar_controles):
         opcoes = ["INICIAR JOGO", "CONTROLES", "SAIR"]
         for i, opcao in enumerate(opcoes):
             tx = largura_original // 2 - 150
-            ty = 800 + i * 70  # Ajustado ligeiramente para encaixar no layout 1080p
+            ty = 800 + i * 70  # para encaixar no layout 1080p
             
             if i == indice_selecionado:
                 tx += 30
@@ -264,3 +267,66 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar, img_cracha_hud
     mx, my = pygame.mouse.get_pos()
     texto_debug = fonte.render(f"X: {mx}, Y: {my}", True, (255, 255, 255))
     tela.blit(texto_debug, (mx + 10, my - 20))
+
+
+def desenhar_pause(tela, indice_selecionado, mostrar_controles):
+    largura_original = 1920
+    altura_original = 1080
+    tempo = pygame.time.get_ticks()
+
+    # Cria uma cortina transpartente
+    overlay_fundo = pygame.Surface((largura_original, altura_original))
+    overlay_fundo.set_alpha(30)
+    overlay_fundo.fill((10, 10, 20))
+    tela.blit(overlay_fundo, (0, 0))
+
+    if mostrar_controles:
+        overlay = pygame.Surface((1000, 470))
+        overlay.set_alpha(230)
+        overlay.fill((0, 0, 0))
+        tela.blit(overlay, ((largura_original - 1000) // 2, 300))
+        
+        controles = [
+            "CONTROLES",
+            "",
+            "A / D: Mover Personagem",
+            "Seta Cima / Espaco: Pular",
+            "K: Atirar Projetil",
+            "T: Interagir com NPCs",
+            "Esc / Espaco: Voltar"
+        ]
+        
+        for i, linha in enumerate(controles):
+            texto = recursos.fonte_pixel_titulo.render(linha, True, (255, 255, 255))
+            tx = largura_original // 2 - texto.get_width() // 2
+            ty = 330 + i * 50
+            sombra = recursos.fonte_pixel_titulo.render(linha, True, (20, 20, 20))
+            tela.blit(sombra, (tx + 2, ty + 2))
+            tela.blit(texto, (tx, ty))
+    else:
+        # Desenha o Título PAUSE em destaque
+        texto_pause = recursos.fonte_pixel_titulo.render("JOGO PAUSADO", True, (255, 0, 0))
+        sombra_pause = recursos.fonte_pixel_titulo.render("JOGO PAUSADO", True, (0, 0, 0))
+        tela.blit(sombra_pause, (largura_original // 2 - texto_pause.get_width() // 2 + 4, 354))
+        tela.blit(texto_pause, (largura_original // 2 - texto_pause.get_width() // 2, 350))
+
+        # Opções do menu de Pause
+        opcoes = ["VOLTAR AO JOGO", "REINICIAR FASE", "CONTROLES", "SAIR PARA O DESKTOP"]
+        for i, opcao in enumerate(opcoes):
+            tx = largura_original // 2 - 200
+            ty = 500 + i * 75
+            
+            if i == indice_selecionado:
+                tx += 25
+                valor_pulsante = int(197 + 58 * math.sin(tempo * 0.005))
+                cor_pulsante = (valor_pulsante, int(valor_pulsante * 0.84), 0)
+                texto_final = f"> {opcao}"
+                cor_final = cor_pulsante
+            else:
+                texto_final = opcao
+                cor_final = (255, 255, 255)
+    
+            texto = recursos.fonte_pixel_titulo.render(texto_final, True, cor_final)
+            sombra_opcao = recursos.fonte_pixel_titulo.render(texto_final, True, (10, 10, 15))
+            tela.blit(sombra_opcao, (tx + 3, ty + 3))
+            tela.blit(texto, (tx, ty))
