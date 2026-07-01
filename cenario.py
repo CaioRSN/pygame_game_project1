@@ -86,7 +86,7 @@ class Cenario:
                 # Se o jogador colidir com o topo e não estiver subindo/pulando
                 if jogador_rect.colliderect(area_pe) and not jogador_pulando:
                     p["tempo_parado"] += 1
-                    if p["tempo_parado"] >= 60: 
+                    if p["tempo_parado"] >= 120: 
                         p["invisivel"] = True
                         p["tempo_invisivel"] = 0
                         # Remove a colisão temporariamente movendo o rect para fora do mapa
