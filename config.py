@@ -12,33 +12,52 @@ velocidade_jogador = 5  # Velocidade inicial atualizada
 
 chao = pygame.Rect(0, 960, 1980, 120)
 
-# --- Inimigos da Fase 0 (Cenário 1) ---
+# --- Inimigos da Fase 0 (Cenário 0) ---
 pinguim_f0 = Inimigo()
 pinguim_f0.rect.x = 1500
 
-# --- Inimigos da Fase 1 (Cenário 2) ---
+# --- Inimigos da Fase 1 (Cenário 1) ---
 p1_f1 = Inimigo()
 p1_f1.rect.x = 800
 p2_f1 = Inimigo()
 p2_f1.rect.x = 1300
 
-# --- Inimigos da Fase 2 (Cenário 3) ---
+# --- Inimigos da Fase 2 (Cenário 2) ---
 p1_f2 = Inimigo()
 p1_f2.rect.x = 600
 p2_f2 = Inimigo()
 p2_f2.rect.x = 1400
 
-# --- Inimigos da Fase 3 (Cenário 4) ---
+# --- Inimigos da Fase 3 (Cenário 3) ---
 p1_f3 = Inimigo()
 p1_f3.rect.x = 1100
 p2_f3 = Inimigo()
 p2_f3.rect.x = 1600
 
-# --- Inimigos da Fase 4 (Cenário 5) ---
+# --- Inimigos da Fase 4 (Cenário 4) ---
 p1_f4 = Inimigo()
 p1_f4.rect.x = 900
 p2_f4 = Inimigo()
 p2_f4.rect.x = 1400
+
+# --- Inimigos da Fase 5 (Cenário 5) ---
+p1_f5 = Inimigo()
+p1_f5.rect.x = 600  
+p2_f5 = Inimigo()
+p2_f5.rect.x = 1400
+
+# --- Inimigos da Fase 6 (Cenário 6) ---
+p1_f6 = Inimigo()
+p1_f6.rect.x = 600
+p2_f6 = Inimigo()
+p2_f6.rect.x = 1400
+
+# --- Inimigos da Fase 7 (Cenário 7) ---
+p1_f7 = Inimigo()
+p1_f7.rect.x = 500  
+p2_f7 = Inimigo()
+p2_f7.rect.x = 1300
+
 
 fase_atual = 0
 fases = {
@@ -64,51 +83,79 @@ fases = {
         ],
         inimigos=[p1_f1, p2_f1]
     ),
-   2: Cenario(
+    2: Cenario(
         indice_fundo=2,
-        # CAMINHO DIRETO: Apenas o zigue-zague essencial para cruzar a tela
         plataformas=[
-            [pygame.Rect(200, 830, 200, 50), 1],  # Início na esquerda
-            [pygame.Rect(500, 710, 200, 50), 1],  # Meio-esquerdo
-            [pygame.Rect(800, 590, 200, 50), 1],  # Centro da tela
-            [pygame.Rect(1100, 640, 200, 50), 1], # Meio-direito
-            [pygame.Rect(1400, 520, 200, 50), 1], # Avança para a direita (plataforma final de ataque)
+            [pygame.Rect(200, 830, 200, 50), 1],
+            [pygame.Rect(500, 710, 200, 50), 1],
+            [pygame.Rect(800, 590, 200, 50), 1],
+            [pygame.Rect(1100, 640, 200, 50), 1],
+            [pygame.Rect(1400, 520, 200, 50), 1],
         ],
         blocos=[], 
         inimigos=[p1_f2, p2_f2]
     ),
     3: Cenario(
         indice_fundo=3,
-        # DISTRIBUIÇÃO EM DUPLA ALTURA (Pontes paralelas rebaixadas)
         plataformas=[
-            [pygame.Rect(150, 830, 200, 60), 1],  # Base esquerda 
-            [pygame.Rect(450, 710, 200, 60), 1],  # Degrau intermediário 
-            [pygame.Rect(750, 590, 250, 60), 1],  # Grande plataforma central
-            [pygame.Rect(1100, 650, 200, 60), 1], # Descida de segurança
-            [pygame.Rect(1400, 720, 200, 60), 1], # Conector da direita 
-            [pygame.Rect(1650, 600, 200, 60), 1], # Saída na direita alta 
+            [pygame.Rect(150, 830, 200, 60), 1],
+            [pygame.Rect(450, 710, 200, 60), 1],
+            [pygame.Rect(750, 590, 250, 60), 1],
+            [pygame.Rect(1100, 650, 200, 60), 1],
+            [pygame.Rect(1400, 720, 200, 60), 1],
+            [pygame.Rect(1650, 600, 200, 60), 1],
         ],
-        blocos=[
-        ],
+        blocos=[],
         inimigos=[p1_f3, p2_f3]
     ),
     4: Cenario(
         indice_fundo=4,
-        # ARENA BILATERAL (Plataformas centrais trazidas para o alcance do pulo)
         plataformas=[
-            [pygame.Rect(150, 720, 220, 50), 1],  # Lateral extrema esquerda
-            [pygame.Rect(450, 590, 200, 50), 1],  # Degrau esquerdo para o centro 
-            # AS DUAS PLATAFORMAS CENTRAIS 
-            [pygame.Rect(750, 480, 180, 50), 1],  # Central esquerda
-            [pygame.Rect(1020, 480, 180, 50), 1], # Central direita
-            [pygame.Rect(1300, 590, 200, 50), 1], # Degrau direito para o centro 
-            [pygame.Rect(1580, 720, 220, 50), 1], # Lateral extrema direita
+            [pygame.Rect(150, 720, 220, 50), 1],
+            [pygame.Rect(450, 590, 200, 50), 1],
+            [pygame.Rect(750, 480, 180, 50), 1],
+            [pygame.Rect(1020, 480, 180, 50), 1],
+            [pygame.Rect(1300, 590, 200, 50), 1],
+            [pygame.Rect(1580, 720, 220, 50), 1],
         ],
         blocos=[
             [pygame.Rect(230, 850, 60, 110), 0],
             [pygame.Rect(1660, 850, 60, 110), 0],
         ],
-        inimigos=[p1_f4, p2_f4])}
+        inimigos=[p1_f4, p2_f4]
+    ),
+    5: Cenario(
+        indice_fundo=5,  
+        plataformas=[
+            [pygame.Rect(150, 720, 220, 50), 1],
+            [pygame.Rect(450, 590, 200, 50), 1],
+            [pygame.Rect(750, 480, 180, 50), 1],
+            [pygame.Rect(1020, 480, 180, 50), 1],
+            [pygame.Rect(1300, 590, 200, 50), 1],
+            [pygame.Rect(1580, 720, 220, 50), 1],
+        ],
+        blocos=[
+            [pygame.Rect(230, 850, 60, 110), 0],
+            [pygame.Rect(1660, 850, 60, 110), 0],
+        ],
+        inimigos=[p1_f5, p2_f5]  
+    ),
+    6: Cenario(
+        indice_fundo=6,
+        plataformas=[
+            [pygame.Rect(150, 830, 200, 60), 1],
+            [pygame.Rect(450, 710, 200, 60), 1],
+            [pygame.Rect(750, 590, 250, 60), 1],
+            [pygame.Rect(1100, 650, 200, 60), 1],
+            [pygame.Rect(1400, 720, 200, 60), 1],
+            [pygame.Rect(1650, 600, 200, 60), 1],
+        ],
+        blocos=[],
+        inimigos=[p1_f6, p2_f6] if 'p1_f6' in locals() else [Inimigo(), Inimigo()]
+    ), 
+
+}
+
 # Inicializa as variáveis dinâmicas com a fase 0
 plataformas_flutuantes = fases[fase_atual].plataformas_flutuantes
 blocos_cenario = fases[fase_atual].blocos_cenario
@@ -124,7 +171,7 @@ atacando = False
 projeteis = []
 indice_sprite_projetil = 0
 ultimo_disparo = 0
-cooldown_disparo = 2000
+cooldown_disparo = 1500
 frame_atual = 0
 rodando = True
 

@@ -299,7 +299,7 @@ while config.rodando:
                         config.score += 100
                         config.tempo_descanso_inimigo = 0
                         
-                        if random.random() <= 0.6:
+                        if random.random() <= 0.7:
                             tipo_sorteado = random.choice(['vida', 'energia', 'escudo'])
                             novo_item = ItemColetavel(tipo_sorteado, pinguim_atual.rect.centerx, pinguim_atual.rect.centery)
                             config.itens_no_chao.append(novo_item)
@@ -313,7 +313,7 @@ while config.rodando:
                         break
 
     if jogador.rect.x > 1920 or jogador.rect.x < 0:
-        if config.fase_atual <= 4:
+        if config.fase_atual <= 6:
             nova_fase = config.fase_atual + 1 if jogador.rect.x > 1920 else config.fase_atual
             if jogador.rect.x < 0 and config.fase_atual > 0:
                 nova_fase = config.fase_atual - 1

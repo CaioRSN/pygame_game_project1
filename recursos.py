@@ -66,11 +66,13 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
      )
     # --- CARREGAMENTO DOS FUNDOS ---
     fundos = [
-        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario1.jpg"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario0.jpg"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario1.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario2.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario3.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario4.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario5.png"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario6.png"), TAMANHO_TELA),
     ]
     #CHAO
     sprite_chao = pygame.image.load("imagens_e_texturas/chao-tijolinho.jpg").convert_alpha()
