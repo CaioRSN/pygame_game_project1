@@ -74,13 +74,13 @@ def desenhar_tudo(tela, jogador, fonte, rect_npc, sprite_mostrar, img_cracha_hud
     
     # Desenha as plataformas flutuantes
     for plat in config.plataformas_flutuantes:
-        if not plat["invisivel"]: 
+        if not plat["invisivel"] and plat.get("desenhar", True): 
             rect_colisao = plat["rect"]
             indice_sprite = plat["sprite_id"]
             sprite_original = recursos.sprites_plataformas[indice_sprite]
             sprite_esticado = pygame.transform.scale(sprite_original, (rect_colisao.width, rect_colisao.height))
             tela.blit(sprite_esticado, (rect_colisao.x, rect_colisao.y))
-            
+        
     # Desenha os blocos fixos
     for lista_bloco in config.blocos_cenario:
         rect_colisao = lista_bloco[0]
