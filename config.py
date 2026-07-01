@@ -8,7 +8,7 @@ ALTURA_PERSONAGEM = 125
 POS_X_INICIAL = 100
 POS_Y_INICIAL = 500
 direcao = "direita"
-velocidade_jogador = 5  # Velocidade inicial atualizada
+velocidade_jogador = 20  # Velocidade inicial atualizada
 
 chao = pygame.Rect(0, 960, 1980, 120)
 
@@ -113,14 +113,14 @@ fases = {
         plataformas=[
             [pygame.Rect(150, 720, 220, 50), 1],
             [pygame.Rect(450, 590, 200, 50), 1],
-            [pygame.Rect(750, 480, 180, 50), 1],
-            [pygame.Rect(1020, 480, 180, 50), 1],
+            [pygame.Rect(900, 480, 180, 50), 1],
             [pygame.Rect(1300, 590, 200, 50), 1],
             [pygame.Rect(1580, 720, 220, 50), 1],
         ],
         blocos=[
             [pygame.Rect(230, 850, 60, 110), 0],
             [pygame.Rect(1660, 850, 60, 110), 0],
+            [pygame.Rect(670, 530, 60, 110), 0]
         ],
         inimigos=[p1_f4, p2_f4]
     ),
@@ -146,7 +146,7 @@ fases = {
             [pygame.Rect(150, 830, 200, 60), 1],
             [pygame.Rect(450, 710, 200, 60), 1],
             [pygame.Rect(750, 590, 250, 60), 1],
-            [pygame.Rect(1100, 650, 200, 60), 1],
+            [pygame.Rect(1100, 390, 200, 60), 1],
             [pygame.Rect(1400, 720, 200, 60), 1],
             [pygame.Rect(1650, 600, 200, 60), 1],
         ],
@@ -231,3 +231,86 @@ def carregar_fase(numero_da_fase):
         
         # Garante a leitura compatível de dicionários para plataformas e listas para blocos
         plataformas = [p["rect"] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
+        
+        
+
+# ----- MOVIMENTAÇÃO DAS PLATAFORMAS -----
+velocidade_plataforma = 2
+direcao_plataforma = 1
+posicoes_iniciais_plataformas = {}
+
+def atualizar_movimento_plataformas(fase_alvo, indice_plataforma, jogador_instancia, afastamento_maximo=150, velocidade=2):
+    if fase_atual == fase_alvo:
+        plataformas_flutuantes = fases[fase_atual].plataformas_flutuantes
+        
+        if 0 <= indice_plataforma < len(plataformas_flutuantes):
+            plat = plataformas_flutuantes[indice_plataforma]["rect"]
+            
+            chave_x = f"fase{fase_alvo}_plat{indice_plataforma}_x"
+            chave_dir = f"fase{fase_alvo}_plat{indice_plataforma}_dir"
+            
+            if chave_x not in posicoes_iniciais_plataformas:
+                posicoes_iniciais_plataformas[chave_x] = plat.x
+                posicoes_iniciais_plataformas[chave_dir] = 1 
+            
+            x_original = posicoes_iniciais_plataformas[chave_x]
+            direcao_atual = posicoes_iniciais_plataformas[chave_dir]
+            
+            limite_esquerdo = x_original - afastamento_maximo
+            limite_direito = x_original + afastamento_maximo
+            
+            deslocamento_x = velocidade * direcao_atual
+            plat.x += deslocamento_x
+            
+            # Movimentação do jogador (usando o parâmetro que veio da chamada da main)
+            colisao_horizontal = (jogador_instancia.rect.right > plat.left and jogador_instancia.rect.left < plat.right)
+            no_topo = abs(jogador_instancia.rect.bottom - plat.top) <= 12
+            
+            if colisao_horizontal and no_topo and not jogador_instancia.pulando:
+                jogador_instancia.rect.x += deslocamento_x
+
+            if plat.x >= limite_direito:
+                posicoes_iniciais_plataformas[chave_dir] = -1
+            elif plat.x <= limite_esquerdo:
+                posicoes_iniciais_plataformas[chave_dir] = 1
+
+            global plataformas
+            plataformas = [p["rect"] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
+
+def atualizar_movimento_vertical_plataformas(fase_alvo, indice_plataforma, jogador_instancia, afastamento_maximo=150, velocidade=2):
+    if fase_atual == fase_alvo:
+        plataformas_flutuantes = fases[fase_atual].plataformas_flutuantes
+        
+        if 0 <= indice_plataforma < len(plataformas_flutuantes):
+            plat = plataformas_flutuantes[indice_plataforma]["rect"]
+            
+            chave_y = f"fase{fase_alvo}_plat{indice_plataforma}_y"
+            chave_dir_v = f"fase{fase_alvo}_plat{indice_plataforma}_dir_v"
+            
+            if chave_y not in posicoes_iniciais_plataformas:
+                posicoes_iniciais_plataformas[chave_y] = plat.y
+                posicoes_iniciais_plataformas[chave_dir_v] = 1 
+            
+            y_original = posicoes_iniciais_plataformas[chave_y]
+            direcao_atual = posicoes_iniciais_plataformas[chave_dir_v]
+            
+            limite_superior = y_original - afastamento_maximo
+            limite_inferior = y_original + afastamento_maximo
+            
+            deslocamento_y = velocidade * direcao_atual
+            plat.y += deslocamento_y
+            
+            # Movimentação do jogador no eixo Y (usando o parâmetro)
+            colisao_horizontal = (jogador_instancia.rect.right > plat.left and jogador_instancia.rect.left < plat.right)
+            no_topo = abs(jogador_instancia.rect.bottom - plat.top) <= 12
+            
+            if colisao_horizontal and no_topo and not jogador_instancia.pulando:
+                jogador_instancia.rect.bottom = plat.top
+
+            if plat.y >= limite_inferior:
+                posicoes_iniciais_plataformas[chave_dir_v] = -1
+            elif plat.y <= limite_superior:
+                posicoes_iniciais_plataformas[chave_dir_v] = 1
+
+            global plataformas
+            plataformas = [p["rect"] for p in plataformas_flutuantes] + [b[0] for b in blocos_cenario]
