@@ -404,7 +404,7 @@ while config.rodando:
     # =========================================================================
     render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
 
-    # EFEITOS DOS PODERES — adiciona aqui
+    # EFEITOS DOS PODERES 
     for efeito in efeitos_ativos[:]:
         x = jogador.rect.centerx - efeito["imagem"].get_width() // 2
         y = jogador.rect.top - efeito["imagem"].get_height() + 160
@@ -419,14 +419,14 @@ while config.rodando:
     for item in config.itens_no_chao[:]:
         if isinstance(item, ItemColetavel):
             rect_flutuante = item.rect.copy()
-            rect_flutuante.y += int(deslocamento_y)
+          
             superficie_virtual.blit(item.image, rect_flutuante)
             if jogador.rect.colliderect(item.rect):
                 config.inventario[item.tipo] += 1
                 config.itens_no_chao.remove(item)
         else:
             rect_flutuante = item["rect"].copy()
-            rect_flutuante.y += int(deslocamento_y)
+
             superficie_virtual.blit(item["imagem"], rect_flutuante)
             if jogador.rect.colliderect(item["rect"]):
                 config.inventario["cracha"] += 1
