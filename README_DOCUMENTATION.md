@@ -126,9 +126,9 @@ Leticia Elany: Desenvolvimento da lógica de inventário dinâmico, sistema esto
 * **Dicionários:** Empregados de forma estratégica no módulo recursos.py para mapear de forma eficiente chaves de identificação (strings) aos buffers de memória que contêm as imagens e efeitos sonoros pré-carregados. Também foram usados para estruturar o mapeamento das teclas do teclado em ações físicas do jogador.   
 
 ## ⚠️ 9. Desafios e Erros Enfrentados
-Maior Erro Cometido (Gerenciamento de Entrada): Falta de esvaziamento e limpeza da fila de inputs/eventos do Pygame ao transicionar entre as telas do sistema. Isso gerava acúmulo de memória e vazamento indesejado de comandos e cliques de uma interface para a outra (ex: cliques no menu ativando comandos involuntários na gameplay).
+Maior Erro Cometido (Gerenciamento de Entrada): Falta de esvaziamento e limpeza da fila de inputs/eventos do Pygame ao transicionar entre as telas do sistema, isso gerava acúmulo de memória e vazamento indesejado de comandos e cliques de uma interface para a outra. Não ter estudado sobre o GitHub com antecedência.
 
-Resolução: Implementação de uma rotina explícita de esvaziamento, descarte e reset da fila de inputs nas funções de transição de estado do jogo.
+Resolução: Estudo sobre o GitHub, mplementação de uma rotina explícita de esvaziamento, descarte e reset da fila de inputs nas funções de transição de estado do jogo.
 
 Maior Desafio Técnico (Responsividade e IA): Projetar interfaces gráficas adaptáveis a diferentes resoluções de tela e otimizar os cálculos matemáticos de distância Euclidiana computados em tempo real, mitigando quedas severas de performance (FPS) quando múltiplos pinguins inimigos estavam perseguindo o protagonista simultaneamente.
 
