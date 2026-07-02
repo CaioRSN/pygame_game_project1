@@ -43,6 +43,10 @@ sprite_efeito_vida = None
 sprite_efeito_energia = None    
 sprite_efeito_escudo = None
 paginas_historia = []
+sprites_boss_parado = []
+sprites_boss_pulo = {}
+sprites_boss_investida = {}
+sprite_trampolim = None
 
 def carregar_e_escalar(caminho, altura):
     img = pygame.image.load(caminho).convert_alpha()
@@ -60,6 +64,7 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     global paginas_historia, sprite_tela_game_over, sprite_fundo_menu, sprite_itens
     global item_energia_img, item_escudo_img, item_vida_img
     global sprite_efeito_vida, sprite_efeito_energia, sprite_efeito_escudo
+    global sprites_boss_parado, sprites_boss_pulo, sprites_boss_investida, sprite_trampolim
 
    
     sprite_fundo_menu = pygame.transform.scale(
@@ -189,6 +194,25 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
         "png dos sprites/pinguim attaq 5.png"
     ]
     sprites_pinguin_atacando = [carregar_e_escalar(arq, ALTURA_PERSONAGEM) for arq in arquivo_pinguin_atacando]
+
+    sprites_boss_parado = [
+    pygame.transform.scale(pygame.image.load("png dos sprites/boss_parado1.png").convert_alpha(), (300, 400)),
+    pygame.transform.scale(pygame.image.load("png dos sprites/boss_parado2.png").convert_alpha(), (300, 400)),
+    pygame.transform.scale(pygame.image.load("png dos sprites/boss_parado3.png").convert_alpha(), (300, 400)),
+    pygame.transform.scale(pygame.image.load("png dos sprites/boss_parado4.png").convert_alpha(), (300, 400)),
+]
+    sprites_boss_pulo = {
+    "prepara": pygame.transform.scale(pygame.image.load("png dos sprites/boss_prepara_pulo1.png").convert_alpha(), (300, 400)),
+    "subindo": pygame.transform.scale(pygame.image.load("png dos sprites/boss_prepara_pulo2.png").convert_alpha(), (300, 400)),
+    "caindo": pygame.transform.scale(pygame.image.load("png dos sprites/boss_prepara_pulo3.png").convert_alpha(), (300, 400)),
+    "pouso": pygame.transform.scale(pygame.image.load("png dos sprites/boss_prepara_pulo4.png").convert_alpha(), (300, 400))
+}
+    sprites_boss_investida = {
+    "prepara": pygame.transform.scale(pygame.image.load("png dos sprites/boss_prepara_dash.png").convert_alpha(), (300, 400)),
+    "dash": pygame.transform.scale(pygame.image.load("png dos sprites/boss_dash.png").convert_alpha(), (350, 400))
+}
+    sprite_trampolim = pygame.transform.scale(pygame.image.load("png dos sprites/trampolimk.png").convert_alpha(), (120, 80))
+
     #iCONE DA FACE
     rostos = [
         "icon face1 4.png"  

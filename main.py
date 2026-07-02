@@ -2,6 +2,7 @@ import pygame
 import recursos
 import config
 import render
+from boss import Boss
 import sys
 from jogador import Jogador
 from inimigo import Inimigo
@@ -36,6 +37,8 @@ pygame.display.set_caption("Cin Adventure")
 
 largura_calculada = recursos.inicializar_recursos((LARGURA_VIRTUAL, ALTURA_VIRTUAL), config.ALTURA_PERSONAGEM)
 jogador = Jogador(largura_calculada)
+
+boss_final = Boss()
 
 # Carrega a imagem do crachá para ser usada no spawn e HUD
 try:
@@ -140,12 +143,12 @@ def usar_energia():
         })
 
 def usar_escudo():
-    if config.inventario["escudo"] > 0:
+    if config.inventario["escudo"] == 0:
         config.inventario["escudo"] -= 1
-        config.tempo_escudo_restante = 100
+        config.tempo_escudo_restante = 9999
         efeitos_ativos.append({
             "imagem": recursos.sprite_efeito_escudo,
-            "duracao": 70
+            "duracao": 9999
         })
 
 efeitos_ativos = []  # guarda os efeitos visuais que estão rodando agora
@@ -376,6 +379,34 @@ while config.rodando:
     jogador.atualizar_estados()
     sprite_jogador_atual = jogador.atualizar_animacao()
 
+
+    if config.fase_atual == 7 and boss_final.vivo:
+        boss_final.atualizar(jogador.rect)
+    
+        # INTERAÇÃO COM O TRAMPOLIM 
+        if boss_final.trampolim_ativo and jogador.rect.colliderect(boss_final.rect_trampolim):
+            # Se o jogador colidir vindo de cima ou correndo por ele
+            jogador.pulando = True
+            jogador.velocidade_y = -35 # Super pulo pra pular o ataque do boss
+
+        # Colisão do Jogador tomando dano do Boss
+        if jogador.rect.colliderect(boss_final.rect):
+            if config.tempo_escudo_restante <= 0:
+                if jogador.receber_dano(boss_final): # Passando o boss como causador
+                    config.game_over = True
+
+        # Projéteis do Jogador batendo no Boss
+        for tiro in config.projeteis[:]:
+            if tiro.rect.colliderect(boss_final.rect):
+                if tiro in config.projeteis:
+                    config.projeteis.remove(tiro)
+                boss_final.vida -= 1
+
+                if boss_final.vida <= 0:
+                    boss_final.vivo = False
+                    print("Você venceu o jogo!")
+
+
     for tiro in config.projeteis[:]:
         tiro.atualizar()
         if (tiro.rect.x > 1920 or tiro.rect.x < 0) and tiro in config.projeteis:
@@ -449,6 +480,9 @@ while config.rodando:
 
     # DESENHO DA TELA E ITENS 
     render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
+
+    if config.fase_atual == 7:
+     boss_final.desenhar(superficie_virtual)
 
     # EFEITOS DOS PODERES 
     for efeito in efeitos_ativos[:]:
