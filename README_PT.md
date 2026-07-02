@@ -66,6 +66,10 @@ Os elementos dinâmicos, objetos interativos e inteligências do jogo foram impl
 
 `render.py`: Isolador de chamadas gráficas, responsável pela escrita de fontes em pixel art, atualização de barras de progresso e desenho geométrico de caixas de diálogo na tela.
 
+`sons.py`: Contém os efeitos sonoros do jogo.
+
+`boss.py`: Propriedades e atributos do chefe final.
+
 ---
 
 ## 🚀 6. Arquivo Principal e Como Rodar o Jogo
@@ -100,11 +104,11 @@ python main.py
 ## 👥 7. Divisão de Trabalho Técnica
 O projeto foi segmentado de forma modular, permitindo o desenvolvimento simultâneo por meio de divisões claras de responsabilidades técnicas:
 
-Alvaro Claudio: Arquitetura do Level Design (cenário da Copa), modelagem de colisões físicas e plataformas ocultas. Configuração estrutural e artes dos itens consumíveis.
+Alvaro Claudio: Arquitetura do Level Design (cenário da Copa), modelagem de colisões físicas e plataformas ocultas. Configuração estrutural, artes dos itens consumíveis e incrementação de inimigo a distância para a ultima fase do jogo.
 
 Arthur Martins: Desenvolvimento do sistema de áudio e efeitos sonoros, mapeamento de colisões secundárias de cenário e implementação lógica da mecânica de NPCs.
 
-Caio Riquelmy: Algoritmos de movimentação vetorial do protagonista, física balística dos projéteis de código e a máquina de estados lógica do chefe final CinSegura.
+Caio Riquelmy: Algoritmos de movimentação vetorial do protagonista, física balística dos projéteis de código, incrementação de um boss final e a máquina de estados lógica do chefe final CinSegura. 
 
 Gabriela Vitória: Criação e integração estética dos sprites e animações do jogo (ciclos de movimentação das entidades), estruturação dos menus e transições de tela.
 
