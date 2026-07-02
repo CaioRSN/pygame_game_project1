@@ -91,3 +91,80 @@ class Inimigo(pygame.sprite.Sprite):
                 self.sprite_atual = pygame.transform.flip(sprite_base, True, False)
             else:
                 self.sprite_atual = sprite_base
+
+class ProjetilInimigo:
+    def __init__(self, x, y, direcao):
+        self.rect = pygame.Rect(x, y, 20, 10)  # retângulo placeholder
+        self.velocidade = 6
+        self.direcao = direcao  # "esquerda" ou "direita"
+
+    def atualizar(self):
+        if self.direcao == "esquerda":
+            self.rect.x -= self.velocidade
+        else:
+            self.rect.x += self.velocidade
+
+
+class InimigoDistancia(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.rect = pygame.Rect(1500, config.chao.y - config.ALTURA_PERSONAGEM, 80, config.ALTURA_PERSONAGEM)
+
+        self.vida = 3
+        self.vivo = True
+        self.frame = 0.0
+        self.sprite_atual = None
+        self.direcao = "esquerda"
+        self.estado = "parado"
+        self.atacando = False
+        self.movendo = False
+
+        self.projeteis = []       # lista própria de projéteis
+        self.cooldown_tiro = 0
+        self.COOLDOWN_MAX = 120   # atira a cada 2 segundos (120 frames)
+
+    def atualizar_ia(self, jogador_rect):
+        if not self.vivo:
+            self.sprite_atual = None
+            return
+
+        distancia_x = abs(jogador_rect.x - self.rect.x)
+        distancia_y = abs(jogador_rect.y - self.rect.y)
+
+        # Sempre olha para o jogador
+        self.direcao = "direita" if jogador_rect.x > self.rect.x else "esquerda"
+
+        # Decrementa o cooldown a cada frame
+        if self.cooldown_tiro > 0:
+            self.cooldown_tiro -= 1
+
+        # Se o jogador estiver no alcance, atira
+        if distancia_x < 900 and distancia_y < 200:
+            self.atacando = True
+            if self.cooldown_tiro <= 0:
+                proj_x = self.rect.right if self.direcao == "direita" else self.rect.left - 20
+                proj_y = self.rect.centery - 5
+                self.projeteis.append(ProjetilInimigo(proj_x, proj_y, self.direcao))
+                self.cooldown_tiro = self.COOLDOWN_MAX
+        else:
+            self.atacando = False
+
+        # Atualiza e remove projéteis que saíram da tela
+        for proj in self.projeteis[:]:
+            proj.atualizar()
+            if proj.rect.x > 1920 or proj.rect.x < 0:
+                self.projeteis.remove(proj)
+
+        #sprites do pinguim que atira a distancia
+        lista_animacao = recursos.sprites_inimigo_distancia_atacando if self.atacando else recursos.sprites_inimigo_distancia_parado
+        velocidade_anim = 0.15 if self.atacando else 0.05
+
+        if lista_animacao:
+            self.frame += velocidade_anim
+            if self.frame >= len(lista_animacao):
+                self.frame = 0.0
+            sprite_base = lista_animacao[int(self.frame)]
+            if self.direcao == "esquerda":
+                self.sprite_atual = pygame.transform.flip(sprite_base, True, False)
+            else:
+                self.sprite_atual = sprite_base

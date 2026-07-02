@@ -43,6 +43,9 @@ sprite_efeito_vida = None
 sprite_efeito_energia = None    
 sprite_efeito_escudo = None
 paginas_historia = []
+sprites_inimigo_distancia_parado = []
+sprites_inimigo_distancia_atacando = []
+sprite_projetil_inimigo_distancia = None
 
 def carregar_e_escalar(caminho, altura):
     img = pygame.image.load(caminho).convert_alpha()
@@ -60,6 +63,7 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     global paginas_historia, sprite_tela_game_over, sprite_fundo_menu, sprite_itens
     global item_energia_img, item_escudo_img, item_vida_img
     global sprite_efeito_vida, sprite_efeito_energia, sprite_efeito_escudo
+    global sprites_inimigo_distancia_parado, sprites_inimigo_distancia_atacando, sprite_projetil_inimigo_distancia
 
    
     sprite_fundo_menu = pygame.transform.scale(
@@ -231,6 +235,17 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     )
     sprite_efeito_escudo = pygame.transform.scale(
         pygame.image.load("png dos sprites/sprite poder escudo.png").convert_alpha(), (150, 150)
+    )
+
+    sprites_inimigo_distancia_parado = [
+        carregar_e_escalar("png dos sprites/inimigo_distancia_parado.png", ALTURA_PERSONAGEM)
+    ]
+    sprites_inimigo_distancia_atacando = [
+        carregar_e_escalar("png dos sprites/inimigo_distancia_atacando1.png", ALTURA_PERSONAGEM)
+    ]
+    sprite_projetil_inimigo_distancia = pygame.transform.scale(
+        pygame.image.load("png dos sprites/inimigo_distancia_projetil.png").convert_alpha(),
+        (60, 30)  # ajusta o tamanho se precisar
     )
 
     return largura_final_base
