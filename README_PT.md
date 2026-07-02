@@ -46,6 +46,7 @@ Desenvolver um jogo eletrônico de plataforma interativo, utilizando a linguagem
 * **Random (Biblioteca Nativa):** Implementação de algoritmos pseudoaleatórios para reger o sistema de recompensa de itens (*drops*) gerados probabilisticamente ao eliminar inimigos.
 * **VS Code:** Ambiente de desenvolvimento integrado (IDE) adotado de forma unificada pela equipe para edição e depuração do código-fonte.
 * **Discord e WhatsApp:** Principais canais de comunicação entre os membros da equipe. Utilizados para informar sobre mudanças no código, divisão de tarefas e novas ideias.
+* **GitHub:** Ambiente utilizado para criação de branches, acesso e compartilhamento do código.
 
 ---
 
