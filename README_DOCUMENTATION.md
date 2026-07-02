@@ -158,6 +158,12 @@ Tecla Esc: Pausa a partida em andamento e abre o menu de suspensão do sistema.
 
 <img width="1596" height="897" alt="Captura de tela 2026-07-01 193845" src="https://github.com/user-attachments/assets/125106bd-4a8f-43de-afd8-2d1d3e0ee6ad" />
 
+<img width="1918" height="987" alt="image" src="https://github.com/user-attachments/assets/24c164c4-6b63-48ab-bc3c-a3c67483e1ee" />
+
+<img width="1918" height="990" alt="image" src="https://github.com/user-attachments/assets/ab4eefa7-cff0-4e8e-994e-9a0b0b87af15" />
+
+<img width="887" height="505" alt="image" src="https://github.com/user-attachments/assets/49d6cbb4-5b0a-4e73-95bf-2efeaee72eb7" />
+
 
 ## 📝 12. Conclusão
 O desenvolvimento do CIn Adventure foi muito mais do que a entrega de um projeto de Introdução à Programação, pois representou a nossa primeira experiência real ao transformar conceitos teóricos em software interativo, lúdico e com forte identidade própria. Ver ideias abstratas da disciplina, tais como herança, encapsulamento e dicionários, a funcionar na prática para dar vida a um professor enfrentando pinguins nos blocos do centro tornou o aprendizado significativamente mais concreto e estimulante.
