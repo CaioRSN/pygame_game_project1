@@ -45,6 +45,7 @@ Desenvolver um jogo eletrônico de plataforma interativo, utilizando a linguagem
 * **SYS (Biblioteca Nativa):** Responsável por interagir diretamente com o interpretador do Python. É utilizada em conjunto com as rotinas de encerramento do ambiente gráfico para executar o desligamento limpo e seguro do processo do jogo na memória RAM assim que o usuário opta por sair da aplicação.
 * **Random (Biblioteca Nativa):** Implementação de algoritmos pseudoaleatórios para reger o sistema de recompensa de itens (*drops*) gerados probabilisticamente ao eliminar inimigos.
 * **VS Code:** Ambiente de desenvolvimento integrado (IDE) adotado de forma unificada pela equipe para edição e depuração do código-fonte.
+* **Discord e WhatsApp:** Principais canais de comunicação entre os membros da equipe. Utilizados para informar sobre mudanças no código, divisão de tarefas e novas ideias.
 
 ---
 
