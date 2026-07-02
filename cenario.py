@@ -77,7 +77,7 @@ class Cenario:
                 p["tempo_invisivel"] += 1
                 p["desenhar"] = False
                 
-                if p["tempo_invisivel"] >= 120:
+                if p["tempo_invisivel"] >= 150:
                     p["invisivel"] = False
                     p["tempo_invisivel"] = 0
                     p["tempo_parado"] = 0
