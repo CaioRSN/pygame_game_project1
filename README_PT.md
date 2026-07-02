@@ -78,21 +78,25 @@ Antes de executar o jogo, certifique-se de ter o **Python 3** instalado em sua m
 ### Instalação Passo a Passo
 
 1. **Clone o repositório:**
-   
+```bash
+
 git clone https://github.com/CaioRSN/pygame_game_project1.git
-
+```
 2. **Navegue até a pasta do projeto:**
-   
+```bash
+
 cd pygame_game_project1
-
+```
 3. **Instale a biblioteca Pygame:**
-   
-pip install pygame --- OU --- pip install pygame-ce (se a versão do seu Python for inferior a 3.13)
+```bash
 
+pip install pygame --- OU --- pip install pygame-ce (se a versão do seu Python for inferior a 3.13)
+```
 4. **Execute o jogo:**
-   
+```bash
+
 python main.py
-  
+```
 ## 👥 7. Divisão de Trabalho Técnica
 O projeto foi segmentado de forma modular, permitindo o desenvolvimento simultâneo por meio de divisões claras de responsabilidades técnicas:
 
