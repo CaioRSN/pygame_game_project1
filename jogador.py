@@ -1,7 +1,8 @@
 import pygame
 import config
 import recursos
-
+from sons import Musicas
+sons = Musicas()
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, largura_calculada):
         super().__init__()
@@ -25,9 +26,9 @@ class Jogador(pygame.sprite.Sprite):
             return
 
         # SE ESTIVER ATACANDO NO CHÃO, TRAVA O MOVIMENTO IMEDIATAMENTE
-        if config.atacando and not self.pulando:
-            self.movendo = False
-            return
+        #if not self.pulando:
+            #self.movendo = False
+            #return
 
         velocidade_x = 0
         andando_direita = False

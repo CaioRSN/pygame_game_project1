@@ -7,6 +7,13 @@ from jogador import Jogador
 from inimigo import Inimigo
 import random
 import math
+from sons import Musicas
+
+
+
+
+
+
 
 class ItemColetavel:
     def __init__(self, tipo, x, y):
@@ -154,6 +161,13 @@ mostrar_controles = False
 
 config.no_menu = True
 
+############## efeitos sonoros ######################
+sons = Musicas()
+sons.tocar_musica_fundo()  
+#####################################################
+
+
+
 # LOOP PRINCIPAL DO JOGO
 while config.rodando:
     clock.tick(60)
@@ -181,23 +195,31 @@ while config.rodando:
     if config.no_menu:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
+                sons.tocar_click()
                 config.rodando = False
             elif evento.type == pygame.VIDEORESIZE:
                 largura_janela_real, altura_janela_real = evento.w, evento.h
                 tela_real = pygame.display.set_mode((largura_janela_real, altura_janela_real), pygame.RESIZABLE)
                 
             if evento.type == pygame.KEYDOWN:
+                sons.tocar_click()
                 if evento.key == pygame.K_ESCAPE:
+                    sons.tocar_click()
                     mostrar_controles = False
                 if mostrar_controles:
+                    sons.tocar_click()
                     if evento.key == pygame.K_SPACE:
+                        sons.tocar_click()
                         mostrar_controles = False
                 else:
                     if evento.key in (pygame.K_DOWN, pygame.K_s):
+                        sons.tocar_click()
                         menu_selecionado = (menu_selecionado + 1) % 3
                     elif evento.key in (pygame.K_UP, pygame.K_w):
+                        sons.tocar_click()
                         menu_selecionado = (menu_selecionado - 1) % 3
                     elif evento.key in (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_SPACE):
+                        sons.tocar_click()
                         if menu_selecionado == 0:
                             config.no_menu = False
                         elif menu_selecionado == 1:
@@ -256,13 +278,16 @@ while config.rodando:
                     if evento.key == pygame.K_ESCAPE:
                         jogo_pausado = False
                     elif evento.key in (pygame.K_DOWN, pygame.K_s):
+                        sons.tocar_click()
                         pause_selecionado = (pause_selecionado + 1) % 4
                     elif evento.key in (pygame.K_UP, pygame.K_w):
+                        sons.tocar_click()
                         pause_selecionado = (pause_selecionado - 1) % 4
                     elif evento.key in (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_SPACE):
                         if pause_selecionado == 0:
                             jogo_pausado = False
                         elif pause_selecionado == 1:
+                            sons.tocar_click()
                             config.carregar_fase(config.fase_atual)
                             config.projeteis.clear()
                             config.itens_no_chao.clear()
@@ -270,23 +295,29 @@ while config.rodando:
                             jogador.rect.y = config.POS_Y_INICIAL
                             jogo_pausado = False
                         elif pause_selecionado == 2:
+                            sons.tocar_click()
                             mostrar_controles_pause = True
                         elif pause_selecionado == 3:
+                            sons.tocar_click()
                             config.rodando = False
             # --- SE O JOGO ESTIVER RODANDO NORMALMENTE ---
             else:
                 if evento.key == pygame.K_ESCAPE:
+                    sons.tocar_click()
                     jogo_pausado = True
                     pause_selecionado = 0
                     mostrar_controles_pause = False
                 elif evento.key == pygame.K_SPACE and not jogador.pulando and not jogador.em_hit:
+                    sons.tocar_pulo()
                     jogador.pulando = True
                     jogador.velocidade_y = -config.velocidade_pulo
                 elif evento.key == pygame.K_UP and not jogador.pulando and not jogador.em_hit:
                     jogador.pulando = True
                     jogador.velocidade_y = -config.velocidade_pulo
                 elif evento.key == pygame.K_k:
+                    sons.tocar_tiro()
                     config.atacando
+                    
                 elif evento.key == pygame.K_1:
                     usar_vida()
                 elif evento.key == pygame.K_2:
@@ -319,12 +350,13 @@ while config.rodando:
         pygame.display.flip()
         continue
 
-    # =========================================================================
+    # =======================================================================
     # LÓGICA DE GAMEPLAY E FÍSICA (SÓ RODA SE NÃO ESTIVER PAUSADO)
-    # =========================================================================
+    # =======================================================================
     area_conversa = rect_npc1.inflate(100, 50)
     if jogador.rect.colliderect(area_conversa):
         config.perto_do_npc = True
+    
     else:
         config.perto_do_npc = False
         config.mostrar_balao = False
@@ -346,6 +378,8 @@ while config.rodando:
             if jogador.rect.colliderect(pinguim_atual.rect):
                 if config.tempo_escudo_restante <= 0:
                     if jogador.receber_dano(pinguim_atual):
+                        sons.parar_musica_fundo()  # para a musica atual
+                        sons.tocar_tela_morte()    # toca a trila sonora quando o jogador morre
                         config.game_over = True
             for tiro in config.projeteis[:]:
                 if tiro.rect.colliderect(pinguim_atual.rect):
@@ -420,6 +454,7 @@ while config.rodando:
           
             superficie_virtual.blit(item.image, rect_flutuante)
             if jogador.rect.colliderect(item.rect):
+                sons.tocar_coleta()
                 config.inventario[item.tipo] += 1
                 config.itens_no_chao.remove(item)
         else:
@@ -428,6 +463,7 @@ while config.rodando:
 
             superficie_virtual.blit(item["imagem"], rect_flutuante)
             if jogador.rect.colliderect(item["rect"]):
+                sons.tocar_coleta()
                 config.inventario["cracha"] += 1
                 config.itens_no_chao.remove(item)
 
