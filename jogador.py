@@ -129,6 +129,7 @@ class Jogador(pygame.sprite.Sprite):
 
     def receber_dano(self, pinguim):
         if self.rect.colliderect(pinguim.rect) and self.invulneravel <= 0:
+            sons.tocar_batendo()
             self.vida_atual -= 1
             self.em_hit = True
             self.tempo_hit = 48

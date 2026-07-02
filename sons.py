@@ -15,6 +15,8 @@ class Musicas:
         self.monstro = pygame.mixer.Sound("music/monstro.mp3")
         self.mola = pygame.mixer.Sound("music/mola.mp3")
         self.vitoria = pygame.mixer.Sound("music/vitoria.mp3")
+        self.batendo = pygame.mixer.Sound("music/batendo.mp3")
+        self.monstro = pygame.mixer.Sound("music/monstro.mp3")
 
     def tocar_tiro(self):
         self.tiro.play()
@@ -45,6 +47,12 @@ class Musicas:
 
     def tocar_vitoria(self):
         self.vitoria.play()
+
+    def tocar_batendo(self):
+        self.batendo.play()
+        
+    def tocar_monstro(self):
+        self.monstro.play()
 
     def tocar_musica_fundo(self):
         pygame.mixer.music.load("music/musica_fundo.mp3")

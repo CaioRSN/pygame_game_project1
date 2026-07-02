@@ -427,6 +427,7 @@ while config.rodando:
             # Se o jogador colidir vindo de cima ou correndo por ele
             jogador.pulando = True
             jogador.velocidade_y = -35 # Super pulo pra pular o ataque do boss
+            sons.tocar_mola()
 
         # Colisão do Jogador tomando dano do Boss
         if jogador.rect.colliderect(boss_final.rect):
@@ -444,6 +445,7 @@ while config.rodando:
                 if boss_final.vida <= 0:
                     boss_final.vivo = False
                     config.jogo_vencido = True
+                    sons.tocar_vitoria()
 
 
     for tiro in config.projeteis[:]:
@@ -522,6 +524,7 @@ while config.rodando:
     # DESENHO DA TELA E ITENS 
     if config.jogo_vencido and recursos.tela_vitoria:
         # Se o jogador venceu, limpa a tela e desenha APENAS a tela de vitória
+        
         superficie_virtual.fill((0, 0, 0))
         superficie_virtual.blit(recursos.tela_vitoria, (0, 0))
     else:
