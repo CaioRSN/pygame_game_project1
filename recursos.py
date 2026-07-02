@@ -259,7 +259,7 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     )
 
     tela_vitoria = pygame.transform.scale(
-        pygame.image.load("imagens_e_texturas/tela_vitoria.jpg").convert(), 
+        pygame.image.load("imagens_e_texturas/tela_vitoria.png").convert(), 
         (1920, 1080)
     )
 

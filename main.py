@@ -469,7 +469,7 @@ while config.rodando:
                         pinguim_atual.vivo = False
                         config.score += 100
                         config.tempo_descanso_inimigo = 0
-                        if random.random() <= 1:
+                        if random.random() <= 0.65:
                             tipo_sorteado = random.choice(['vida', 'energia', 'escudo'])
                             novo_item = ItemColetavel(tipo_sorteado, pinguim_atual.rect.centerx, pinguim_atual.rect.centery)
                             config.itens_no_chao.append(novo_item)
