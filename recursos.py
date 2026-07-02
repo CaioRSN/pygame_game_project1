@@ -79,6 +79,7 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario4.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario5.png"), TAMANHO_TELA),
         pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario6.png"), TAMANHO_TELA),
+        pygame.transform.scale(pygame.image.load("imagens_e_texturas/cenario7.png"), TAMANHO_TELA),
     ]
 
     paginas_historia = [
