@@ -47,6 +47,7 @@ sprites_boss_parado = []
 sprites_boss_pulo = {}
 sprites_boss_investida = {}
 sprite_trampolim = None
+tela_vitoria = None
 
 def carregar_e_escalar(caminho, altura):
     img = pygame.image.load(caminho).convert_alpha()
@@ -61,7 +62,7 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     global sprite_npc1, sprite_balao_fala
     global fonte_pixel_titulo, fonte_pixel_numero, fonte_game_over, fonte_hud_itens, fonte_dialogo
     global sprites_blocos, sprites_plataformas, sprite_chao
-    global paginas_historia, sprite_tela_game_over, sprite_fundo_menu, sprite_itens
+    global paginas_historia, sprite_tela_game_over, sprite_fundo_menu, sprite_itens, tela_vitoria
     global item_energia_img, item_escudo_img, item_vida_img
     global sprite_efeito_vida, sprite_efeito_energia, sprite_efeito_escudo
     global sprites_boss_parado, sprites_boss_pulo, sprites_boss_investida, sprite_trampolim
@@ -255,6 +256,11 @@ def inicializar_recursos(TAMANHO_TELA, ALTURA_PERSONAGEM):
     )
     sprite_efeito_escudo = pygame.transform.scale(
         pygame.image.load("png dos sprites/sprite poder escudo.png").convert_alpha(), (150, 150)
+    )
+
+    tela_vitoria = pygame.transform.scale(
+        pygame.image.load("imagens_e_texturas/tela_vitoria.jpg").convert(), 
+        (1920, 1080)
     )
 
     return largura_final_base

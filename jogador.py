@@ -26,9 +26,10 @@ class Jogador(pygame.sprite.Sprite):
             return
 
         # SE ESTIVER ATACANDO NO CHÃO, TRAVA O MOVIMENTO IMEDIATAMENTE
-        #if not self.pulando:
-            #self.movendo = False
-            #return
+        if config.atacando and not self.pulando:
+            self.movendo = False
+            return
+
 
         velocidade_x = 0
         andando_direita = False

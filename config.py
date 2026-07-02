@@ -178,6 +178,7 @@ pulando = False
 velocidade_pulo = 20
 gravidade = 1
 velocidade_y = 0
+atacando = False
 projeteis = False
 projeteis = []
 indice_sprite_projetil = 0
@@ -185,6 +186,8 @@ ultimo_disparo = 0
 cooldown_disparo = 1500
 frame_atual = 0
 rodando = True
+
+jogo_vencido = False
 
 # Definições gerais do inimigo
 altura_inimigo = 125

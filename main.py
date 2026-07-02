@@ -152,10 +152,10 @@ def usar_energia():
 def usar_escudo():
     if config.inventario["escudo"] == 0:
         config.inventario["escudo"] -= 1
-        config.tempo_escudo_restante = 9999
+        config.tempo_escudo_restante = 90
         efeitos_ativos.append({
             "imagem": recursos.sprite_efeito_escudo,
-            "duracao": 9999
+            "duracao": 90
         })
 
 efeitos_ativos = []  # guarda os efeitos visuais que estão rodando agora
@@ -198,7 +198,6 @@ while config.rodando:
         config.cooldown_tiro_reduzido = False
         jogador.velocidade = 5
 
-    # =========================================================================
     # ESTADO 1: MENU INICIAL
     # =========================================================================
     if config.no_menu:
@@ -206,6 +205,10 @@ while config.rodando:
             if evento.type == pygame.QUIT:
                 sons.tocar_click()
                 config.rodando = False
+
+            if config.jogo_vencido and evento.type == pygame.KEYDOWN:
+                rodando = False
+
             elif evento.type == pygame.VIDEORESIZE:
                 largura_janela_real, altura_janela_real = evento.w, evento.h
                 tela_real = pygame.display.set_mode((largura_janela_real, altura_janela_real), pygame.RESIZABLE)
@@ -302,8 +305,9 @@ while config.rodando:
         continue
 
     # =========================================================================
+
+
     # ESTADO 3: EVENTOS DO JOGO (Normal e Pausado)
-    # =========================================================================
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             config.rodando = False
@@ -312,6 +316,10 @@ while config.rodando:
             tela_real = pygame.display.set_mode((largura_janela_real, altura_janela_real), pygame.RESIZABLE)
 
         if evento.type == pygame.KEYDOWN:
+            # Se o jogo já foi vencido, qualquer tecla pressionada fecha o jogo imediatamente
+            if config.jogo_vencido:
+                config.rodando = False
+
             # --- SE O JOGO ESTIVER PAUSADO ---
             if jogo_pausado:
                 if mostrar_controles_pause:
@@ -435,7 +443,7 @@ while config.rodando:
 
                 if boss_final.vida <= 0:
                     boss_final.vivo = False
-                    print("Você venceu o jogo!")
+                    config.jogo_vencido = True
 
 
     for tiro in config.projeteis[:]:
@@ -512,10 +520,16 @@ while config.rodando:
     config.atualizar_movimento_plataformas(6, 3, jogador, afastamento_maximo = 70, velocidade = 2)
 
     # DESENHO DA TELA E ITENS 
-    render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
+    if config.jogo_vencido and recursos.tela_vitoria:
+        # Se o jogador venceu, limpa a tela e desenha APENAS a tela de vitória
+        superficie_virtual.fill((0, 0, 0))
+        superficie_virtual.blit(recursos.tela_vitoria, (0, 0))
+    else:
+        # Se NÃO venceu ainda, roda o desenho padrão do jogo 
+        render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
 
-    if config.fase_atual == 7:
-     boss_final.desenhar(superficie_virtual)
+        if config.fase_atual == 7:
+            boss_final.desenhar(superficie_virtual)
 
     # EFEITOS DOS PODERES 
     for efeito in efeitos_ativos[:]:

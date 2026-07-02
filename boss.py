@@ -14,7 +14,7 @@ class Boss(pygame.sprite.Sprite):
         
         
         self.vida_maxima = 10
-        self.vida = 10
+        self.vida = 6
         self.vivo = True
         self.cor = (255, 0, 0)
 
@@ -82,7 +82,7 @@ class Boss(pygame.sprite.Sprite):
 
         elif self.estado == 'pulo':
             self.rect.y += self.velocidade_y
-            self.velocidade_y += 0.9
+            self.velocidade_y += 0.7
             
             # Define se o sprite está subindo ou descendo com base na velocidade_y
             if "subindo" in recursos.sprites_boss_pulo and "caindo" in recursos.sprites_boss_pulo:
