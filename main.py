@@ -150,7 +150,7 @@ def usar_energia():
         })
 
 def usar_escudo():
-    if config.inventario["escudo"] > 0:
+    if config.inventario["escudo"] >= 0:
         config.inventario["escudo"] -= 1
         config.tempo_escudo_restante = 90
         efeitos_ativos.append({
@@ -503,6 +503,10 @@ while config.rodando:
                 jogador.rect.right = 1920
             elif jogador.rect.x < 0:
                 jogador.rect.x = 0
+    
+    if config.fase_atual == 6:
+        if jogador.rect.right > 1920 and jogador.rect.bottom > 730:
+            jogador.rect.right = 1920
 
     if recursos.sprites_status_face:
         config.frame_rosto += config.velocidade_anim_rosto
@@ -533,6 +537,31 @@ while config.rodando:
 
         if config.fase_atual == 7:
             boss_final.desenhar(superficie_virtual)
+
+    # Projéteis dos inimigos à distância
+    for inimigo in config.inimigos_cenario[:]:
+        if not hasattr(inimigo, 'projeteis'):
+            continue  # pula inimigos normais
+
+        for proj in inimigo.projeteis[:]:
+            # Desenha o projétil (retângulo vermelho por enquanto)
+            sprite_proj = recursos.sprite_projetil_inimigo_distancia
+            if proj.direcao == "esquerda":
+                sprite_proj = pygame.transform.flip(sprite_proj, True, False)
+            superficie_virtual.blit(sprite_proj, proj.rect)
+
+            # Colisão com tiro do jogador: cancela o tiro do jogador, projétil continua
+            for tiro_jogador in config.projeteis[:]:
+                if proj.rect.colliderect(tiro_jogador.rect):
+                    config.projeteis.remove(tiro_jogador)
+
+            # Colisão com o jogador: perde 1 vida
+            if proj.rect.colliderect(jogador.rect):
+                if config.tempo_escudo_restante <= 0:
+                    if jogador.receber_dano_projetil():
+                        config.game_over = True
+                if proj in inimigo.projeteis:
+                    inimigo.projeteis.remove(proj)
 
     # EFEITOS DOS PODERES 
     for efeito in efeitos_ativos[:]:

@@ -146,6 +146,18 @@ class Jogador(pygame.sprite.Sprite):
                 self.vida_atual = 0
                 return True
         return False
+    
+    def receber_dano_projetil(self):
+        if self.invulneravel <= 0:
+            self.vida_atual -= 1
+            self.em_hit = True
+            self.tempo_hit = 48
+            self.invulneravel = 75
+            config.frame_atual = 0.0
+            if self.vida_atual <= 0:
+                self.vida_atual = 0
+                return True
+        return False
 
     def atualizar_animacao(self):
         import recursos

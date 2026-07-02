@@ -1,6 +1,6 @@
 import pygame
 from cenario import Cenario
-from inimigo import Inimigo
+from inimigo import Inimigo, InimigoDistancia
 
 tamanho_tela = (1920, 1080)
 AZUL = (0, 0, 255)
@@ -23,10 +23,8 @@ p2_f1 = Inimigo()
 p2_f1.rect.x = 1300
 
 # --- Inimigos da Fase 2 (Cenário 2) ---
-p1_f2 = Inimigo()
-p1_f2.rect.x = 600
-p2_f2 = Inimigo()
-p2_f2.rect.x = 1400
+inimigoD_f2 = InimigoDistancia()
+inimigoD_f2.rect.x = 1400
 
 # --- Inimigos da Fase 3 (Cenário 3) ---
 p1_f3 = Inimigo()
@@ -35,10 +33,8 @@ p2_f3 = Inimigo()
 p2_f3.rect.x = 1600
 
 # --- Inimigos da Fase 4 (Cenário 4) ---
-p1_f4 = Inimigo()
-p1_f4.rect.x = 900
-p2_f4 = Inimigo()
-p2_f4.rect.x = 1400
+inimigoD_f4 = InimigoDistancia()
+inimigoD_f4.rect.x = 1400
 
 # --- Inimigos da Fase 5 (Cenário 5) ---
 p1_f5 = Inimigo()
@@ -47,10 +43,12 @@ p2_f5 = Inimigo()
 p2_f5.rect.x = 1400
 
 # --- Inimigos da Fase 6 (Cenário 6) ---
-p1_f6 = Inimigo()
-p1_f6.rect.x = 600
 p2_f6 = Inimigo()
 p2_f6.rect.x = 1400
+
+# --- Inimigos da Fase 6 (Cenário 6) ---
+inimigoD_f6 = InimigoDistancia()
+inimigoD_f6.rect.x = 1000  # posição inicial dele na fase
 
 # --- Inimigos da Fase 7 (Cenário 7) ---
 p1_f7 = Inimigo()
@@ -92,8 +90,8 @@ fases = {
             [pygame.Rect(1100, 640, 200, 50), 1],
             [pygame.Rect(1400, 520, 200, 50), 1],
         ],
-        blocos=[], 
-        inimigos=[p1_f2, p2_f2]
+        blocos=[],
+        inimigos=[inimigoD_f2]
     ),
     3: Cenario(
         indice_fundo=3,
@@ -122,7 +120,7 @@ fases = {
             [pygame.Rect(1660, 850, 60, 110), 0],
             [pygame.Rect(670, 530, 60, 110), 0]
         ],
-        inimigos=[p1_f4, p2_f4]
+        inimigos=[inimigoD_f4]
     ),
     5: Cenario(
         indice_fundo=5,  
@@ -151,7 +149,7 @@ fases = {
             [pygame.Rect(1650, 600, 200, 60), 1],
         ],
         blocos=[],
-        inimigos=[p1_f6, p2_f6] if 'p1_f6' in locals() else [Inimigo(), Inimigo()]
+        inimigos=[inimigoD_f6]
     ), 
     7: Cenario(
         indice_fundo=7,
