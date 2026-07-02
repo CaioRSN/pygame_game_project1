@@ -110,6 +110,11 @@ def reiniciar_jogo():
     jogador.rect.y = config.POS_Y_INICIAL
     jogador.velocidade_y = 0
     
+    if not hasattr(config, 'na_historia'):
+      config.na_historia = False
+    if not hasattr(config, 'pagina_historia'):
+      config.pagina_historia = 0
+
     # Recarrega o mapa inicial
     config.carregar_fase(0)
 
@@ -150,6 +155,7 @@ jogo_pausado = False
 mostrar_controles_pause = False
 
 menu_selecionado = 0
+
 mostrar_controles = False
 
 config.no_menu = True
@@ -198,8 +204,13 @@ while config.rodando:
                     elif evento.key in (pygame.K_UP, pygame.K_w):
                         menu_selecionado = (menu_selecionado - 1) % 3
                     elif evento.key in (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_SPACE):
+
                         if menu_selecionado == 0:
+
                             config.no_menu = False
+                            config.na_historia = True
+                            config.pagina_historia = 0
+
                         elif menu_selecionado == 1:
                             mostrar_controles = True
                         elif menu_selecionado == 2:
@@ -209,6 +220,36 @@ while config.rodando:
         tela_redimensionada = pygame.transform.scale(superficie_virtual, (largura_janela_real, altura_janela_real))
         tela_real.blit(tela_redimensionada, (0, 0))
 
+        pygame.display.flip()
+        continue
+
+           
+    # TELA DE HISTÓRIA 
+    # =========================================================================
+    if config.na_historia:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                config.rodando = False
+            elif evento.type == pygame.VIDEORESIZE:
+                largura_janela_real, altura_janela_real = evento.w, evento.h
+                tela_real = pygame.display.set_mode((largura_janela_real, altura_janela_real), pygame.RESIZABLE)
+            
+            # A cada tecla apertada, passa uma página
+            if evento.type == pygame.KEYDOWN:
+                config.pagina_historia += 1
+                if config.pagina_historia >= 6:
+                    config.na_historia = False
+
+        # Se a história acabou neste frame, sai do bloco para iniciar o jogo
+        if not config.na_historia:
+            continue
+
+        superficie_virtual.blit(recursos.paginas_historia[config.pagina_historia], (0, 0))
+
+        tela_redimensionada = pygame.transform.scale(superficie_virtual, (largura_janela_real, altura_janela_real))
+        tela_real.fill((0, 0, 0))
+        tela_real.blit(tela_redimensionada, (0, 0))
+        
         pygame.display.flip()
         continue
 
@@ -398,6 +439,13 @@ while config.rodando:
     if config.contador_frames_tempo >= 60:
         config.tempo_segundos += 1
         config.contador_frames_tempo = 0
+    
+    config.atualizar_movimento_plataformas(2, 3, jogador, afastamento_maximo = 90, velocidade = 2)
+    config.atualizar_movimento_plataformas(3, 2, jogador, afastamento_maximo = 90, velocidade = 2.2)
+    config.atualizar_movimento_plataformas(4, 2, jogador, afastamento_maximo = 150, velocidade = 3)
+    config.atualizar_movimento_vertical_plataformas(5, 3, jogador, afastamento_maximo = 90, velocidade = 2)
+    config.atualizar_movimento_vertical_plataformas(6, 2, jogador, afastamento_maximo = 90, velocidade = 2)
+    config.atualizar_movimento_plataformas(6, 3, jogador, afastamento_maximo = 70, velocidade = 2)
 
     # DESENHO DA TELA E ITENS 
     render.desenhar_tudo(superficie_virtual, jogador, fonte, rect_npc1, sprite_jogador_atual, img_cracha_hud)
