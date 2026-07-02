@@ -1,7 +1,8 @@
 import pygame
 import config
 import recursos
-
+from sons import Musicas
+sons = Musicas()
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, largura_calculada):
         super().__init__()
@@ -28,6 +29,7 @@ class Jogador(pygame.sprite.Sprite):
         if config.atacando and not self.pulando:
             self.movendo = False
             return
+
 
         velocidade_x = 0
         andando_direita = False
@@ -127,6 +129,7 @@ class Jogador(pygame.sprite.Sprite):
 
     def receber_dano(self, pinguim):
         if self.rect.colliderect(pinguim.rect) and self.invulneravel <= 0:
+            sons.tocar_batendo()
             self.vida_atual -= 1
             self.em_hit = True
             self.tempo_hit = 48
