@@ -150,7 +150,7 @@ def usar_energia():
         })
 
 def usar_escudo():
-    if config.inventario["escudo"] == 0:
+    if config.inventario["escudo"] > 0:
         config.inventario["escudo"] -= 1
         config.tempo_escudo_restante = 90
         efeitos_ativos.append({
