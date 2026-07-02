@@ -153,7 +153,18 @@ fases = {
         blocos=[],
         inimigos=[p1_f6, p2_f6] if 'p1_f6' in locals() else [Inimigo(), Inimigo()]
     ), 
-
+    7: Cenario(
+        indice_fundo=7,
+        plataformas=[
+            
+        ],
+        blocos=[
+            
+        ],
+       inimigos=[
+           
+       ]
+    ),
 }
 
 # Inicializa as variáveis dinâmicas com a fase 0
